@@ -24,3 +24,9 @@ Puis ouvrir `http://localhost:8000/`.
 
 Cette branche (`web-semantique`) est destinée à être servie telle quelle par
 GitHub Pages (Settings → Pages → Branch → `web-semantique` → `/ (root)`).
+
+`style.css` et `app.js` sont chargés avec un paramètre `?v=N` dans `index.html`
+pour éviter que le cache du navigateur/CDN ne serve une version périmée après
+un déploiement (surtout important ici puisque la branche `main` du même dépôt
+sert un autre projet avec des fichiers de même nom). **Incrémenter ce `N`** à
+chaque modification de `style.css` ou `app.js`.
