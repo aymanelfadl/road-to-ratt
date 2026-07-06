@@ -14,7 +14,7 @@
     "title": "Validité — erreur de séquence",
     "source": "original",
     "prompt": "Étant donné la DTD :\n```dtd\n<!ELEMENT commande (client, produit+, total)>\n<!ELEMENT client (#PCDATA)>\n<!ELEMENT produit (#PCDATA)>\n<!ELEMENT total (#PCDATA)>\n```\net le document :\n```xml\n<?xml version=\"1.0\"?>\n<commande>\n  <produit>Clavier</produit>\n  <client>Ayman</client>\n  <total>250</total>\n</commande>\n```\nCe document est-il valide par rapport à cette DTD ? Pourquoi ?",
-    "correction": "**Corrigé :** **Non, il n'est pas valide** (mais il est bien formé). La DTD impose une **séquence stricte** `(client, produit+, total)` : `client` doit apparaître **avant** `produit`. Or dans le document, `<produit>` précède `<client>` — l'ordre des éléments ne respecte pas le modèle de contenu déclaré. Il faudrait inverser l'ordre : `<client>` puis `<produit>` puis `<total>`.",
+    "correction": "**Non, il n'est pas valide** (mais il est bien formé).\n\n- La DTD impose une **séquence stricte** `(client, produit+, total)` : `client` doit apparaître **avant** `produit`.\n- Or dans le document, `<produit>` précède `<client>` — l'ordre des éléments ne respecte pas le modèle de contenu déclaré.\n- Correction : inverser l'ordre → `<client>` puis `<produit>` puis `<total>`.",
     "topicLabel": "XML & DTD"
   },
   {
@@ -23,7 +23,7 @@
     "title": "Validité — attribut ID dupliqué",
     "source": "original",
     "prompt": "Étant donné la DTD :\n```dtd\n<!ELEMENT employes (employe+)>\n<!ELEMENT employe (nom)>\n<!ELEMENT nom (#PCDATA)>\n<!ATTLIST employe\n    matricule ID       #REQUIRED\n    manager   IDREF    #IMPLIED>\n```\net le document :\n```xml\n<?xml version=\"1.0\"?>\n<employes>\n  <employe matricule=\"E01\">\n    <nom>Sara</nom>\n  </employe>\n  <employe matricule=\"E01\" manager=\"E01\">\n    <nom>Yassine</nom>\n  </employe>\n</employes>\n```\nCe document est-il valide ? Justifiez précisément.",
-    "correction": "**Corrigé :** **Non, invalide.** L'attribut `matricule` est déclaré de type `ID`, ce qui impose une valeur **unique dans tout le document**. Or `\"E01\"` est utilisé **deux fois** (pour Sara et pour Yassine) — violation de l'unicité des `ID`. (Par ailleurs, `manager=\"E01\"` référence bien un `ID` existant via `IDREF`, ce point-là serait correct isolément — le seul problème est la duplication du `matricule`.) Pour corriger : donner un `matricule` distinct à chaque `employe`, par exemple `E01` et `E02`.",
+    "correction": "**Non, invalide.**\n\n- L'attribut `matricule` est déclaré de type `ID`, ce qui impose une valeur **unique dans tout le document**.\n- Or `\"E01\"` est utilisé **deux fois** (pour Sara et pour Yassine) — violation de l'unicité des `ID`.\n- Par ailleurs, `manager=\"E01\"` référence bien un `ID` existant via `IDREF` : ce point-là serait correct isolément, le seul problème est la duplication du `matricule`.\n- Correction : donner un `matricule` distinct à chaque `employe`, par exemple `E01` et `E02`.",
     "topicLabel": "XML & DTD"
   },
   {
@@ -311,7 +311,7 @@
     "title": "Q3 — Type XSD pour l'attribut code (unique) (examen 2025)",
     "source": "exam-2025",
     "prompt": "*(voir le titre de la question ci-dessus — réécriture directe, la réponse suit)*",
-    "correction": "**Réponse : `xs:ID`** (confirmé par la croix cochée) — c'est le seul type XSD prédéfini qui impose nativement l'**unicité dans tout le document** (`xs:KEY`/`xs:UNIQUE` sont des *contraintes d'identité* déclarées différemment, via `xs:unique`/`xs:key`/`xs:keyref` en dehors du type, pas des *types* de données ; `xs:nodeID` n'existe pas dans XSD).",
+    "correction": "**Réponse : `xs:ID`** (confirmé par la croix cochée).\n\n- C'est le seul type XSD prédéfini qui impose nativement l'**unicité dans tout le document**.\n- `xs:KEY`/`xs:UNIQUE` sont des *contraintes d'identité* déclarées différemment, via `xs:unique`/`xs:key`/`xs:keyref` en dehors du type — ce ne sont pas des *types* de données.\n- `xs:nodeID` n'existe pas dans XSD.",
     "topicLabel": "XML Schema"
   },
   {
@@ -320,7 +320,7 @@
     "title": "Q4 — Type XSD pour la balise base (examen 2025)",
     "source": "exam-2025",
     "prompt": "`<base>` contient tantôt un seul mot (`XML`), tantôt plusieurs mots séparés par un espace (`XML XQuery`) — c'est le patron classique d'une **liste de tokens**.",
-    "correction": "**Corrigé proposé** : `xs:NMTOKENS` (liste de `NMTOKEN` séparés par des espaces, chaque token étant ici le code d'une autre technologie référencée). Alternative tout aussi défendable : un type dérivé personnalisé via `<xs:list itemType=\"xs:NMTOKEN\"/>`.",
+    "correction": "**Corrigé proposé : `xs:NMTOKENS`**\n\n- Liste de `NMTOKEN` séparés par des espaces, chaque token étant ici le code d'une autre technologie référencée.\n- Alternative tout aussi défendable : un type dérivé personnalisé via `<xs:list itemType=\"xs:NMTOKEN\"/>`.",
     "topicLabel": "XML Schema"
   },
   {
