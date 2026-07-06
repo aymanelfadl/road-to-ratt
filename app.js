@@ -86,11 +86,28 @@
     render();
   }
 
+  function buildProgressDots() {
+    const wrap = el("progressDots");
+    wrap.innerHTML = "";
+    state.all.forEach((q) => {
+      const dot = document.createElement("span");
+      dot.className = "dot";
+      dot.dataset.id = q.id;
+      wrap.appendChild(dot);
+    });
+  }
+
   function updateProgressBar() {
     const total = state.all.length;
     const mastered = Object.values(state.progress).filter((v) => v === "mastered").length;
     el("progressText").textContent = mastered + " / " + total + " maîtrisées";
-    el("progressFill").style.width = total ? (100 * mastered / total) + "%" : "0%";
+    document.querySelectorAll("#progressDots .dot").forEach((dot) => {
+      const status = state.progress[dot.dataset.id];
+      const level = status === "mastered" ? "2" : status === "review" ? "1" : "0";
+      dot.dataset.level = level;
+      const q = state.all.find((x) => x.id === dot.dataset.id);
+      dot.title = q ? q.title : "";
+    });
   }
 
   function render() {
@@ -183,6 +200,7 @@
     .then((data) => {
       state.all = data;
       buildTopicFilters();
+      buildProgressDots();
       wire();
       rebuildQueue(false);
     })
