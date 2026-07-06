@@ -1,7 +1,9 @@
-/* Web Sémantique — Entraînement. Same family as the sibling "DBA2 Drill" app
-   (Newsreader serif + JetBrains Mono, dark monochrome) but softened for
-   comfortable reading: off-black/off-white instead of pure contrast, thin
-   low-contrast dividers instead of heavy boxes, rounded corners, more air. */
+/* Web Sémantique — Entraînement. Dark monochrome in the same spirit as the
+   sibling "DBA2 Drill" app, softened for comfortable reading: off-black/
+   off-white instead of pure contrast, thin low-contrast dividers instead of
+   heavy boxes, rounded corners, more air. Inter for body text (clearer for
+   sustained technical reading than a display serif), JetBrains Mono for
+   code/labels. */
 
 :root {
   --ink: #e9e7e2;
@@ -23,9 +25,10 @@ html, body {
 }
 
 body {
-  font-family: "Newsreader", Georgia, serif;
-  font-size: 17px;
+  font-family: "Inter", -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 15.5px;
   line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
 }
 
 code, .mono {
