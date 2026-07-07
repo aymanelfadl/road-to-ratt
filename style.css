@@ -54,6 +54,18 @@ code, .mono {
   min-width: 46px;
 }
 
+.topbar-nav {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+a.ghost-btn {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+
 /* ---------- progress strip ---------- */
 
 .progress {

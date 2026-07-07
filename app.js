@@ -2,8 +2,10 @@
 // No backend: question bank ships in data/questions.json, progress lives in localStorage.
 // Rule: wrong answer -> never reveal the correct choice, just re-ask the same concept.
 
-const STORAGE_KEY = "dba2drill_v1";
-const LANG_KEY = "dba2drill_lang";
+const CFG = window.DRILL_CONFIG || {};
+const STORAGE_KEY = CFG.storageKey || "dba2drill_v1";
+const LANG_KEY = CFG.langKey || "dba2drill_lang";
+const DATA_URL = CFG.dataUrl || "data/questions.json";
 const MASTERY_STREAK = 3; // consecutive correct answers to consider a concept "mastered"
 const STREAK_CAP = 5;
 
@@ -340,7 +342,7 @@ function updateLangButton() {
 // ---------- boot ----------
 
 async function boot() {
-  const res = await fetch("data/questions.json");
+  const res = await fetch(DATA_URL);
   DATA = await res.json();
 
   DATA.concepts.forEach(c => { conceptNameById[c.id] = c.name; questionsByConcept[c.id] = []; });
