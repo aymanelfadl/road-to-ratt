@@ -88,7 +88,7 @@ code, .mono {
   align-items: center;
 }
 
-a.ghost-btn {
+a.ghost-btn, a.primary-btn {
   text-decoration: none;
   display: inline-flex;
   align-items: center;
