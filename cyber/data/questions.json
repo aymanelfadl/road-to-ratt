@@ -1,0 +1,830 @@
+[
+ {
+  "id": "ssi24-q1",
+  "topic": "mesures",
+  "topicLabel": "Mesures & bonnes pratiques",
+  "title": "QCM — Gérer plusieurs mots de passe",
+  "source": "exam-ssi-24",
+  "prompt": "Un utilisateur a du mal à se souvenir des mots de passe de plusieurs comptes en ligne. Que faire ?\n\n- **A.** Écrire les mots de passe sur papier et les cacher.\n- **B.** Enregistrer les mots de passe dans un programme de gestion centralisée des mots de passe.\n- **C.** Créer un seul mot de passe fort pour tous ses comptes en ligne.\n- **D.** Partager les mots de passe avec l'administrateur réseau ou le technicien de maintenance.",
+  "correction": "**Réponse : B**\n\nUn **gestionnaire de mots de passe** stocke tous les mots de passe de façon chiffrée derrière un seul mot de passe maître fort. Réutiliser un même mot de passe (C), l'écrire sur papier (A) ou le partager (D) sont des mauvaises pratiques."
+ },
+ {
+  "id": "ssi24-q2",
+  "topic": "menaces",
+  "topicLabel": "Menaces & attaques",
+  "title": "QCM — Virus vs ver",
+  "source": "exam-ssi-24",
+  "prompt": "Quelle est la principale différence entre un virus et un ver informatique ?\n\n- **A.** Les virus se propagent via des réseaux, tandis que les vers nécessitent un hôte.\n- **B.** Les virus nécessitent une action humaine pour se propager, tandis que les vers se propagent de façon autonome.\n- **C.** Les virus sont des logiciels malveillants autonomes, tandis que les vers nécessitent un hôte.\n- **D.** Les virus sont spécifiques aux ordinateurs Windows, tandis que les vers affectent tous les systèmes d'exploitation.",
+  "correction": "**Réponse : B**\n\nLe **virus** s'attache à un fichier hôte et a besoin d'une action humaine (ouvrir le fichier, lancer le programme) pour se propager. Le **ver** est autonome : il se réplique et se propage seul via le réseau, sans intervention de l'utilisateur."
+ },
+ {
+  "id": "ssi24-q3",
+  "topic": "mesures",
+  "topicLabel": "Mesures & bonnes pratiques",
+  "title": "QCM — Rôle d'un patch",
+  "source": "exam-ssi-24",
+  "prompt": "Quel est le rôle d'un « patch » dans la sécurité informatique ?\n\n- **A.** Un dispositif de surveillance du trafic réseau.\n- **B.** Une mise à jour logicielle destinée à corriger des vulnérabilités.\n- **C.** Un dispositif de chiffrement des fichiers sensibles.\n- **D.** Un pare-feu matériel.",
+  "correction": "**Réponse : B**\n\nUn **patch** (correctif) est une mise à jour publiée par l'éditeur pour corriger des failles de sécurité ou des bugs. Appliquer les patchs rapidement réduit la fenêtre d'exposition aux attaques (dont les zero-day une fois corrigées)."
+ },
+ {
+  "id": "ssi24-q4",
+  "topic": "aaa",
+  "topicLabel": "AAA & authentification",
+  "title": "QCM — Authentification vs autorisation",
+  "source": "exam-ssi-24",
+  "prompt": "Quel service détermine les ressources auxquelles un utilisateur peut accéder et les opérations qu'il peut effectuer ?\n\n- **A.** Autorisation\n- **B.** Biométrie\n- **C.** Traçabilité\n- **D.** Authentification\n- **E.** Jeton",
+  "correction": "**Réponse : A**\n\nL'**autorisation** définit *ce que* l'utilisateur a le droit de faire (ressources, opérations). L'**authentification** vérifie *qui* il est, et la **traçabilité** (accounting) journalise ce qu'il a fait — les trois A du modèle AAA."
+ },
+ {
+  "id": "ssi24-q5",
+  "topic": "aaa",
+  "topicLabel": "AAA & authentification",
+  "title": "QCM — Single Sign-On (SSO)",
+  "source": "exam-ssi-24",
+  "prompt": "Qu'est-ce que « l'authentification unique » (Single Sign-On – SSO) dans le contexte de la sécurité informatique ?\n\n- **A.** Une méthode d'authentification basée sur deux types différents d'informations d'identification.\n- **B.** Un processus permettant à un utilisateur de se connecter une seule fois pour accéder à plusieurs systèmes sans avoir à se réauthentifier à chaque fois.\n- **C.** Une méthode d'authentification sans utiliser de mot de passe.\n- **D.** Une méthode d'authentification utilisant deux mots de passe.",
+  "correction": "**Réponse : B**\n\nLe **SSO** permet une connexion unique donnant accès à plusieurs applications/systèmes sans se réauthentifier. À ne pas confondre avec la MFA (option A) qui, elle, combine plusieurs facteurs."
+ },
+ {
+  "id": "ssi24-q6",
+  "topic": "aaa",
+  "topicLabel": "AAA & authentification",
+  "title": "QCM — Authentification déléguée entre services",
+  "source": "exam-ssi-24",
+  "prompt": "Vous souhaitez imprimer des photos enregistrées sur un compte de stockage cloud à l'aide d'un service d'impression en ligne tiers. Après vous être correctement authentifié au compte cloud, vous obtenez automatiquement l'accès au service d'impression. Qu'est-ce qui a permis à cette authentification automatique de se produire ?\n\n- **A.** Les informations de compte du service de stockage cloud ont été interceptées par une application malveillante.\n- **B.** Le mot de passe saisi pour le service d'impression est le même que celui du stockage cloud.\n- **C.** Le service de stockage cloud est une application approuvée par ce service d'impression en ligne.\n- **D.** L'utilisateur est sur un réseau non chiffré et le mot de passe est visible par le service d'impression.",
+  "correction": "**Réponse : C**\n\nC'est le principe de la **délégation d'autorisation entre applications approuvées** (type OAuth/Open Authorization) : le service d'impression fait confiance au fournisseur cloud et accepte son jeton, sans jamais voir le mot de passe de l'utilisateur."
+ },
+ {
+  "id": "ssi24-q7",
+  "topic": "menaces",
+  "topicLabel": "Menaces & attaques",
+  "title": "QCM — Base de données chiffrée + rançon",
+  "source": "exam-ssi-24",
+  "prompt": "Les utilisateurs signalent que la base de données du serveur principal est inaccessible. L'administrateur remarque que le fichier de base de données est maintenant chiffré, et l'entreprise reçoit un e-mail exigeant une rançon pour le déchiffrer. Quel type d'attaque l'entreprise a-t-elle subie ?\n\n- **A.** Attaque par déni de service (DoS)\n- **B.** Attaque man-in-the-middle\n- **C.** Cheval de Troie\n- **D.** Ransomware",
+  "correction": "**Réponse : D**\n\nChiffrement des données + demande de rançon = **ransomware** (rançongiciel). C'est sa signature exacte : rendre les données inaccessibles puis monnayer la clé de déchiffrement."
+ },
+ {
+  "id": "ssi24-q8",
+  "topic": "firewall",
+  "topicLabel": "Pare-feu, ACL & IDS",
+  "title": "QCM — Protéger le réseau domestique",
+  "source": "exam-ssi-24",
+  "prompt": "Un spécialiste de la sécurité doit conseiller une mesure pour éviter que des hôtes non autorisés accèdent au réseau domestique des employés. Quelle mesure serait la plus efficace ?\n\n- **A.** Implémenter un VLAN\n- **B.** Implémenter un pare-feu\n- **C.** Implémenter des systèmes de détection d'intrusion\n- **D.** Implémenter RAID",
+  "correction": "**Réponse : B**\n\nLe **pare-feu** filtre les connexions entrantes/sortantes et bloque les accès non autorisés — c'est la mesure de base pour un réseau domestique. L'IDS ne fait que détecter (pas bloquer), le VLAN segmente un réseau d'entreprise, et le RAID concerne la disponibilité des disques, pas l'accès."
+ },
+ {
+  "id": "ssi24-q9",
+  "topic": "menaces",
+  "topicLabel": "Menaces & attaques",
+  "title": "QCM — Injection SQL",
+  "source": "exam-ssi-24",
+  "prompt": "Qu'est-ce qu'une « attaque par injection SQL » dans le contexte de la sécurité des bases de données ?\n\n- **A.** Une attaque visant à obtenir des informations confidentielles en se faisant passer pour une entité de confiance.\n- **B.** Une attaque exploitant des vulnérabilités dans les requêtes SQL pour accéder ou altérer la base de données.\n- **C.** Une attaque de l'homme du milieu (Man-in-the-Middle) ciblant les bases de données.\n- **D.** Une attaque par force brute visant à deviner les mots de passe de la base de données.",
+  "correction": "**Réponse : B**\n\nL'**injection SQL** consiste à insérer du code SQL malveillant dans les champs de saisie d'une application pour manipuler les requêtes envoyées à la base (lire, modifier, supprimer des données). L'option A décrit le phishing."
+ },
+ {
+  "id": "ssi24-q10",
+  "topic": "pentest",
+  "topicLabel": "Pentest & outils",
+  "title": "QCM — Lister les ports ouverts",
+  "source": "exam-ssi-24",
+  "prompt": "Quel outil est utilisé pour fournir une liste des ports ouverts sur des périphériques réseau ?\n\n- **A.** Nmap\n- **B.** Ping\n- **C.** Whois\n- **D.** Tracert",
+  "correction": "**Réponse : A**\n\n**Nmap** est le scanner de ports de référence : il découvre les hôtes actifs, les ports ouverts et les services associés. Ping teste la joignabilité, Tracert le chemin réseau, Whois les informations d'enregistrement de domaine."
+ },
+ {
+  "id": "ssi24-q11",
+  "topic": "crypto",
+  "topicLabel": "Cryptographie",
+  "title": "QCM — Signature numérique : quelle clé ?",
+  "source": "exam-ssi-24",
+  "prompt": "Alice et Bob utilisent une signature numérique pour signer un document. Quelle clé Alice doit-elle utiliser pour signer le document de manière à ce que Bob soit certain que le document provient d'Alice ?\n\n- **A.** Clé privée d'Alice\n- **B.** Clé privée de Bob\n- **C.** Clé publique de Bob\n- **D.** Nom d'utilisateur et mot de passe d'Alice",
+  "correction": "**Réponse : A**\n\nOn signe toujours avec **sa propre clé privée**. Bob vérifie ensuite la signature avec la **clé publique d'Alice** : si la vérification réussit, le document provient bien d'Alice (authenticité + non-répudiation)."
+ },
+ {
+  "id": "ssi24-q12",
+  "topic": "crypto",
+  "topicLabel": "Cryptographie",
+  "title": "QCM — Chiffrement à clé partagée",
+  "source": "exam-ssi-24",
+  "prompt": "Quel algorithme de chiffrement utilise la même clé partagée pour chiffrer et déchiffrer les données ?\n\n- **A.** Hash\n- **B.** Symétrique\n- **C.** Asymétrique\n- **D.** Masque jetable",
+  "correction": "**Réponse : B**\n\nLe chiffrement **symétrique** (ex. AES, 3DES) utilise une seule clé secrète partagée pour chiffrer et déchiffrer. L'asymétrique utilise une paire clé publique/clé privée, et le hash n'est pas un chiffrement (pas réversible)."
+ },
+ {
+  "id": "ssi24-q13",
+  "topic": "crypto",
+  "topicLabel": "Cryptographie",
+  "title": "QCM — Intérêt d'une fonction de hash",
+  "source": "exam-ssi-24",
+  "prompt": "Quel est l'intérêt d'utiliser une fonction de hash ?\n\n- **A.** Elle prend en charge uniquement des messages de longueur fixe.\n- **B.** Elle n'est pas utilisée couramment dans le domaine de la sécurité.\n- **C.** Deux fichiers différents ayant la même sortie peuvent être créés.\n- **D.** Cette fonction unidirectionnelle n'est pas réversible.\n- **E.** La longueur de sortie est variable.",
+  "correction": "**Réponse : D**\n\nUne fonction de hash est **unidirectionnelle** : on ne peut pas retrouver le message d'origine à partir de l'empreinte. Elle accepte des messages de longueur quelconque et produit une sortie de longueur **fixe** ; elle sert à garantir l'**intégrité** (et au stockage des mots de passe)."
+ },
+ {
+  "id": "ssi24-q14",
+  "topic": "gouvernance",
+  "topicLabel": "Gouvernance & normes",
+  "title": "QCM — Objectif de la gouvernance IT",
+  "source": "exam-ssi-24",
+  "prompt": "Quel est l'objectif principal de la gouvernance de la sécurité IT ?\n\n- **A.** Prendre des décisions pour limiter les risques.\n- **B.** Assurer la surveillance afin de s'assurer que les risques sont atténués de manière adéquate.\n- **C.** Définir un ensemble de contrôles qu'une entreprise doit mettre en œuvre.\n- **D.** Fournir un ensemble de politiques et de procédures pour gérer les données sensibles.",
+  "correction": "**Réponse : A**\n\nLa **gouvernance** est le niveau décisionnel : elle oriente et arbitre pour limiter les risques (stratégie, priorités, responsabilités). La surveillance, les contrôles et les procédures relèvent de la **gestion** qui applique ces décisions."
+ },
+ {
+  "id": "ssi24-q15",
+  "topic": "mesures",
+  "topicLabel": "Mesures & bonnes pratiques",
+  "title": "QCM — Principe du moindre privilège",
+  "source": "exam-ssi-24",
+  "prompt": "Qu'est-ce que le « principe du moindre privilège » (principle of least privilege) en sécurité informatique ?\n\n- **A.** Accorder à chaque utilisateur les privilèges les plus élevés par défaut.\n- **B.** Accorder à chaque utilisateur le moins de privilèges nécessaires pour accomplir ses tâches.\n- **C.** Accorder à chaque utilisateur des privilèges illimités pour garantir la productivité.\n- **D.** Accorder à chaque utilisateur un niveau de privilège fixe, indépendamment de ses besoins.",
+  "correction": "**Réponse : B**\n\nChaque utilisateur (ou processus) ne reçoit que **le strict minimum de droits** nécessaires à ses tâches. Cela limite l'impact d'une compromission de compte ou d'une erreur humaine."
+ },
+ {
+  "id": "ssi24-q16",
+  "topic": "mesures",
+  "topicLabel": "Mesures & bonnes pratiques",
+  "title": "QCM — Logiciels et périphériques non autorisés (3 réponses)",
+  "source": "exam-ssi-24",
+  "prompt": "Une organisation a connu plusieurs incidents impliquant des employés téléchargeant des logiciels non autorisés, utilisant des sites web non autorisés et des périphériques USB personnels. Quelles mesures l'entreprise pourrait-elle mettre en œuvre pour gérer ces menaces ? **(Choisissez trois bonnes réponses.)**\n\n- **A.** Surveiller toutes les activités des collaborateurs.\n- **B.** Mettre en œuvre une action disciplinaire.\n- **C.** Utiliser le filtrage du contenu.\n- **D.** Fournir une formation de sensibilisation aux questions de sécurité.\n- **E.** Désactiver l'accès USB.",
+  "correction": "**Réponse : C, D, E**\n\nLes mesures efficaces et proportionnées : **filtrage de contenu** (bloque les sites/téléchargements non autorisés), **sensibilisation** (traite la cause humaine) et **désactivation des ports USB** (supprime le vecteur). La surveillance généralisée et les sanctions ne préviennent pas la menace à la source."
+ },
+ {
+  "id": "ssi24-q17",
+  "topic": "gouvernance",
+  "topicLabel": "Gouvernance & normes",
+  "title": "QCM — Périmètre d'un poste en sécurité des opérations",
+  "source": "exam-ssi-24",
+  "prompt": "Une nouvelle personne a rejoint l'équipe des opérations de sécurité d'une usine de fabrication. Quel est le périmètre commun de responsabilité de cette personne ?\n\n- **A.** Gestion des opérations de redondance pour tous les systèmes.\n- **B.** La sécurité physique et logique de tout le personnel de l'entreprise.\n- **C.** Sécurité des données sur les périphériques hôtes.\n- **D.** Maintenance quotidienne des équipements du réseau.",
+  "correction": "**Réponse : C**\n\nLes opérations de sécurité couvrent typiquement la **protection des données sur les hôtes** (postes, serveurs : durcissement, antimalware, correctifs). La redondance, la maintenance réseau ou la sécurité de « tout le personnel » dépassent ce périmètre."
+ },
+ {
+  "id": "ssi24-q18",
+  "topic": "pentest",
+  "topicLabel": "Pentest & outils",
+  "title": "QCM — Outil d'analyse de configuration",
+  "source": "exam-ssi-24",
+  "prompt": "Quel outil de cybersécurité analyse l'utilisation de mots de passe par défaut, les correctifs manquants, les ports ouverts, les erreurs de configuration et les adresses IP actives ?\n\n- **A.** Scanners de vulnérabilités\n- **B.** Piratage de mots de passe\n- **C.** Analyseurs de paquets\n- **D.** Scanners de ports",
+  "correction": "**Réponse : A**\n\nSeul le **scanner de vulnérabilités** (ex. Nessus, OpenVAS, QualysGuard) couvre l'ensemble : mots de passe par défaut, patchs manquants, ports ouverts, mauvaises configurations, hôtes actifs. Le scanner de ports ne voit que les ports."
+ },
+ {
+  "id": "ssi24-q19",
+  "topic": "gouvernance",
+  "topicLabel": "Gouvernance & normes",
+  "title": "QCM — ISO 27005 : première étape",
+  "source": "exam-ssi-24",
+  "prompt": "Quelle est la première étape du processus de gestion des risques selon la norme ISO 27005 ?\n\n- **A.** Évaluation des risques\n- **B.** Communication des risques\n- **C.** Identification des actifs\n- **D.** Traitement des risques",
+  "correction": "**Réponse : C**\n\nOn commence par **identifier les actifs** (ce qu'on doit protéger et sa valeur). Sans inventaire des actifs, impossible d'évaluer les menaces, vulnérabilités et impacts qui les concernent."
+ },
+ {
+  "id": "ssi24-q20",
+  "topic": "gouvernance",
+  "topicLabel": "Gouvernance & normes",
+  "title": "QCM — Évaluation de conformité ISO 27001",
+  "source": "exam-ssi-24",
+  "prompt": "Qu'est-ce que l'évaluation de la conformité dans le contexte de la norme ISO 27001 ?\n\n- **A.** Un processus continu d'amélioration des politiques de sécurité.\n- **B.** Une évaluation formelle effectuée par des auditeurs indépendants pour déterminer si l'organisation respecte les exigences de la norme.\n- **C.** Un examen des performances des systèmes de sécurité de l'information.",
+  "correction": "**Réponse : B**\n\nL'évaluation de conformité ISO 27001 est un **audit formel indépendant** qui vérifie que le SMSI (système de management de la sécurité de l'information) respecte les exigences de la norme — c'est ce qui mène à la certification."
+ },
+ {
+  "id": "ssi24-ex2",
+  "topic": "mesures",
+  "topicLabel": "Mesures & bonnes pratiques",
+  "title": "Exercice — Classer 6 mesures de sécurité",
+  "source": "exam-ssi-24",
+  "prompt": "Pour chacune des six mesures suivantes, indiquez si elle est utilisée comme mesure **préventive, corrective ou de détection** ; précisez si la mesure est **administrative** (politique et bonne pratique), **technique** (technologie), **managériale** (humaine) ou **légale**.\n\n1. Élaboration d'une politique de mot de passe exigeant des caractères complexes et des changements réguliers.\n2. Sauvegarde régulière des données sur des serveurs externes.\n3. Formation régulière du personnel sur les meilleures pratiques en matière de sécurité informatique.\n4. Configuration d'un pare-feu pour filtrer le trafic réseau entrant et sortant.\n5. Vérification régulière de la conformité aux lois et réglementations en matière de protection des données.\n6. Mise en place d'un système d'alarme incendie.",
+  "correction": "**Corrigé :**\n\n| # | Mesure | Type | Catégorie |\n|---|---|---|---|\n| 1 | Politique de mot de passe | Préventive | Administrative |\n| 2 | Sauvegardes externes régulières | Préventive | Technique |\n| 3 | Formation du personnel | Préventive | Managériale |\n| 4 | Pare-feu | Préventive | Technique |\n| 5 | Vérification de conformité | Préventive *ou* corrective | Légale |\n| 6 | Alarme incendie | Préventive *ou* de détection | Technique |\n\n*Repères* : une politique/procédure écrite → administrative ; une technologie → technique ; l'humain (formation, sensibilisation) → managériale ; lois et réglementations → légale."
+ },
+ {
+  "id": "ssi24-ex3",
+  "topic": "mesures",
+  "topicLabel": "Mesures & bonnes pratiques",
+  "title": "Exercice — Divulgation involontaire d'informations",
+  "source": "exam-ssi-24",
+  "prompt": "Un collaborateur non intentionnel d'une entreprise a divulgué des informations importantes de l'entreprise à d'autres personnes étrangères.\n\n1. Quelle est la vulnérabilité principale ici ?\n2. Quel est l'objectif de sécurité qui a été touché ?\n3. Est-ce que ce problème peut être résolu par les technologies de sécurité ?\n4. Proposez quelques mesures de sécurité que doit opérer l'entreprise.",
+  "correction": "**Corrigé :**\n\n1. **Vulnérabilité principale** : le manque de **sensibilisation et de formation du personnel**. La divulgation involontaire résulte d'une méconnaissance des politiques de sécurité (si elles existent) ou d'une formation insuffisante. (Autres formulations acceptées : utilisateur non sensibilisé, données sensibles à la portée d'un utilisateur non responsabilisé…)\n2. **Objectif touché** : la **confidentialité**.\n3. **Non.** Les mesures technologiques seules ne peuvent jamais résoudre tous les problèmes de sécurité — ici la cause est humaine, il faut prévoir d'autres types de mesures.\n4. **Mesures** : formation et sensibilisation régulières des employés aux politiques de sécurité ; définition/rappel d'une politique de classification et de manipulation de l'information ; engagement de confidentialité ; contrôle d'accès au besoin d'en connaître (moindre privilège)."
+ },
+ {
+  "id": "ssi24-ex4",
+  "topic": "pentest",
+  "topicLabel": "Pentest & outils",
+  "title": "Exercice — Test d'intrusion du serveur de messagerie (DEVSec Corp)",
+  "source": "exam-ssi-24",
+  "prompt": "DEVSec Corp, une entreprise gérant des informations sensibles, souhaite évaluer la robustesse de sa sécurité en effectuant des **tests d'intrusion** sur son serveur de messagerie. Le consultant a reçu une **autorisation écrite** et les tests se déroulent dans un **environnement de test isolé** similaire à la production.\n\n1. L'analyse de sécurité fait partie de quelle équipe : Blue Team (défensive), Purple Team (les deux) ou Red Team (offensive) ?\n2. Quelle est la première étape avant de commencer les tests d'intrusion ?\n3. Quels types de vulnérabilités rechercher lors du scan du serveur de messagerie ?\n4. Citez un exemple d'outil utilisable pour ce scan.\n5. Pourquoi tester la résistance aux attaques de phishing dans ce cadre ?\n6. Quel est le rôle du rapport final dans le processus de test d'intrusion ?",
+  "correction": "**Corrigé :**\n\n1. **Red Team** (démarche offensive : simuler l'attaquant).\n2. Effectuer une **analyse préliminaire** pour comprendre l'environnement et les risques potentiels (périmètre, autorisation, reconnaissance).\n3. **Ports ouverts**, **configurations par défaut**, **vulnérabilités logicielles** (versions non patchées).\n4. **OpenVAS**, **Nessus** ou **QualysGuard**.\n5. Pour évaluer la **sensibilisation des utilisateurs** et le risque de **compromission des comptes** de messagerie — l'humain est le maillon visé par le phishing.\n6. Fournir une **base pour la remédiation** des vulnérabilités identifiées (failles classées par gravité + recommandations), guidant l'amélioration de la sécurité."
+ },
+ {
+  "id": "ssi25-q1",
+  "topic": "mesures",
+  "topicLabel": "Mesures & bonnes pratiques",
+  "title": "QCM — Protéger ses données personnelles en ligne",
+  "source": "exam-ssi-25",
+  "prompt": "Quelle méthode est la plus efficace pour protéger vos données personnelles en ligne ?\n\n- **A.** Partager vos informations uniquement avec des amis proches.\n- **B.** Utiliser un VPN et des mots de passe complexes.\n- **C.** Publier moins de contenu sur les réseaux sociaux.\n- **D.** Garder vos fichiers uniquement sur un disque dur local.",
+  "correction": "**Réponse : B**\n\nLa combinaison **VPN (chiffrement du trafic) + mots de passe complexes et uniques** protège à la fois les données en transit et les comptes. Les autres options réduisent un peu l'exposition mais ne constituent pas une protection technique réelle."
+ },
+ {
+  "id": "ssi25-q2",
+  "topic": "mesures",
+  "topicLabel": "Mesures & bonnes pratiques",
+  "title": "QCM — Politique de sauvegarde",
+  "source": "exam-ssi-25",
+  "prompt": "Quel est le rôle d'une politique de sauvegarde régulière ?\n\n- **A.** Prévenir les attaques de phishing.\n- **B.** Restaurer les données en cas de perte ou de corruption.\n- **C.** Assurer la conformité aux réglementations.\n- **D.** Réduire les coûts opérationnels.",
+  "correction": "**Réponse : B**\n\nLa sauvegarde vise la **disponibilité** : pouvoir **restaurer les données** après une perte, une corruption ou un ransomware. Elle ne prévient pas les attaques — elle en limite l'impact."
+ },
+ {
+  "id": "ssi25-q3",
+  "topic": "gouvernance",
+  "topicLabel": "Gouvernance & normes",
+  "title": "QCM — Objectifs d'une politique de sécurité (3 réponses)",
+  "source": "exam-ssi-25",
+  "prompt": "Quels sont les trois objectifs d'une politique de sécurité complète ? **(Choisissez trois réponses.)**\n\n- **A.** Définir les conséquences juridiques des infractions.\n- **B.** Être imprécise.\n- **C.** Aider l'équipe en charge de la sécurité à assurer la gestion.\n- **D.** Être utile pour la gestion.\n- **E.** Définir les règles à respecter.",
+  "correction": "**Réponse : A, C, E**\n\nUne politique de sécurité doit **définir les règles**, **aider l'équipe sécurité à gérer** et **préciser les conséquences (y compris juridiques) des infractions**. Elle doit évidemment être précise et engageante — les options B et F sont des contre-sens."
+ },
+ {
+  "id": "ssi25-q4",
+  "topic": "menaces",
+  "topicLabel": "Menaces & attaques",
+  "title": "QCM — Ingénierie sociale",
+  "source": "exam-ssi-25",
+  "prompt": "Choisir un exemple d'attaque par ingénierie sociale :\n\n- **A.** Force brute\n- **B.** Phishing\n- **C.** Injection SQL\n- **D.** Ransomware",
+  "correction": "**Réponse : B**\n\nLe **phishing** manipule l'humain (faux e-mail, faux site) pour lui soutirer des informations — c'est la définition de l'ingénierie sociale. Force brute et injection SQL sont des attaques techniques."
+ },
+ {
+  "id": "ssi25-q5",
+  "topic": "gouvernance",
+  "topicLabel": "Gouvernance & normes",
+  "title": "QCM — Le triptyque C.I.A.",
+  "source": "exam-ssi-25",
+  "prompt": "Quels sont les trois principaux objectifs de la sécurité des systèmes d'information (C.I.A.) ?\n\n- **A.** Confidentialité, Intégrité, Disponibilité\n- **B.** Contrôle, Isolation, Audit\n- **C.** Cryptage, Identification, Anonymisation\n- **D.** Collaboration, Isolation, Accessibilité",
+  "correction": "**Réponse : A**\n\n**C.I.A. = Confidentialité** (seuls les autorisés accèdent), **Intégrité** (les données ne sont pas altérées), **Disponibilité** (les services et données restent accessibles). C'est le socle de tous les cours de SSI."
+ },
+ {
+  "id": "ssi25-q6",
+  "topic": "menaces",
+  "topicLabel": "Menaces & attaques",
+  "title": "QCM — Submerger un serveur de requêtes",
+  "source": "exam-ssi-25",
+  "prompt": "Quel type d'attaque consiste à submerger un serveur de requêtes pour le rendre indisponible ?\n\n- **A.** Attaque Man-in-the-Middle\n- **B.** Attaque par force brute\n- **C.** Attaque DDoS\n- **D.** Attaque par phishing",
+  "correction": "**Réponse : C**\n\nLe **DDoS** (déni de service distribué) inonde la cible de requêtes depuis de nombreuses machines (souvent un botnet) jusqu'à saturation. Il vise la **disponibilité**."
+ },
+ {
+  "id": "ssi25-q7",
+  "topic": "menaces",
+  "topicLabel": "Menaces & attaques",
+  "title": "QCM — Objectif d'une attaque MITM",
+  "source": "exam-ssi-25",
+  "prompt": "Quel est le principal objectif d'une attaque MITM (Man-in-the-Middle) ?\n\n- **A.** Ralentir le réseau.\n- **B.** Espionner ou modifier les communications entre deux parties.\n- **C.** Infecter un système avec un virus.\n- **D.** Voler des identifiants bancaires en masse.",
+  "correction": "**Réponse : B**\n\nDans une attaque **MITM**, l'attaquant s'interpose entre deux interlocuteurs pour **intercepter, espionner ou altérer** leurs échanges à leur insu. Elle touche la confidentialité et l'intégrité des communications."
+ },
+ {
+  "id": "ssi25-q8",
+  "topic": "firewall",
+  "topicLabel": "Pare-feu, ACL & IDS",
+  "title": "QCM — À quoi sert un pare-feu ?",
+  "source": "exam-ssi-25",
+  "prompt": "À quoi sert un pare-feu ?\n\n- **A.** Empêcher les virus d'infecter les fichiers.\n- **B.** Filtrer le trafic réseau et bloquer les connexions non autorisées.\n- **C.** Chiffrer les e-mails.\n- **D.** Empêcher le téléchargement de fichiers.",
+  "correction": "**Réponse : B**\n\nLe pare-feu **filtre le trafic réseau** selon des règles (adresses, ports, protocoles, état des connexions) et **bloque les connexions non autorisées**. Il ne remplace ni l'antivirus ni le chiffrement."
+ },
+ {
+  "id": "ssi25-q9",
+  "topic": "crypto",
+  "topicLabel": "Cryptographie",
+  "title": "QCM — Protocole web sécurisé",
+  "source": "exam-ssi-25",
+  "prompt": "Quel protocole est utilisé pour sécuriser les communications sur le web ?\n\n- **A.** HTTP\n- **B.** FTP\n- **C.** HTTPS\n- **D.** SMTP",
+  "correction": "**Réponse : C**\n\n**HTTPS** = HTTP sur **TLS** : le trafic web est chiffré et le serveur authentifié par certificat. HTTP, FTP et SMTP transmettent par défaut en clair."
+ },
+ {
+  "id": "ssi25-q10",
+  "topic": "crypto",
+  "topicLabel": "Cryptographie",
+  "title": "QCM — Avantage du chiffrement",
+  "source": "exam-ssi-25",
+  "prompt": "Quel est l'avantage principal du chiffrement des données ?\n\n- **A.** Accélérer le traitement des informations.\n- **B.** Rendre les données inaccessibles sans clé de déchiffrement.\n- **C.** Remplacer les antivirus.\n- **D.** Bloquer les attaques DDoS.",
+  "correction": "**Réponse : B**\n\nLe chiffrement garantit la **confidentialité** : sans la clé de déchiffrement, les données interceptées ou volées restent illisibles."
+ },
+ {
+  "id": "ssi25-q11",
+  "topic": "firewall",
+  "topicLabel": "Pare-feu, ACL & IDS",
+  "title": "QCM — Fonction d'un IDS",
+  "source": "exam-ssi-25",
+  "prompt": "Quelle est la principale fonction d'un IDS ?\n\n- **A.** Bloquer les attaques en temps réel.\n- **B.** Surveiller et détecter les comportements suspects dans un réseau.\n- **C.** Chiffrer les communications.\n- **D.** Remplacer un pare-feu.",
+  "correction": "**Réponse : B**\n\nUn **IDS** (Intrusion Detection System) **surveille et détecte** — il alerte mais ne bloque pas. C'est l'**IPS** (Prevention) qui bloque en temps réel. Piège classique de QCM."
+ },
+ {
+  "id": "ssi25-q12",
+  "topic": "gouvernance",
+  "topicLabel": "Gouvernance & normes",
+  "title": "QCM — Utilité de l'ISO 27001",
+  "source": "exam-ssi-25",
+  "prompt": "Quelle est la principale utilité de l'ISO 27001 ?\n\n- **A.** Définir des standards de gestion de la sécurité de l'information.\n- **B.** Remplacer les antivirus.\n- **C.** Chiffrer les données.\n- **D.** Accélérer le traitement des fichiers.",
+  "correction": "**Réponse : A**\n\n**ISO 27001** définit les exigences d'un **SMSI** (système de management de la sécurité de l'information) : c'est une norme de gestion/organisation, pas un outil technique. (ISO 27005 traite la gestion des risques.)"
+ },
+ {
+  "id": "ssi25-q13",
+  "topic": "mesures",
+  "topicLabel": "Mesures & bonnes pratiques",
+  "title": "QCM — Gérer les accès aux informations sensibles",
+  "source": "exam-ssi-25",
+  "prompt": "Quelle est la meilleure approche pour gérer les accès aux informations sensibles ?\n\n- **A.** Donner un accès illimité à tous les employés pour favoriser la collaboration.\n- **B.** Mettre en place un contrôle d'accès basé sur le principe du moindre privilège.\n- **C.** Supprimer tous les mots de passe pour éviter les pertes d'accès.\n- **D.** Changer les mots de passe chaque jour sans avertir les utilisateurs.",
+  "correction": "**Réponse : B**\n\nLe **contrôle d'accès fondé sur le moindre privilège** : chacun n'accède qu'à ce dont il a besoin pour ses tâches. Les trois autres options dégradent la sécurité ou l'utilisabilité."
+ },
+ {
+  "id": "ssi25-q14",
+  "topic": "gouvernance",
+  "topicLabel": "Gouvernance & normes",
+  "title": "QCM — Démontrer l'engagement sécurité",
+  "source": "exam-ssi-25",
+  "prompt": "Comment une organisation peut-elle démontrer son engagement envers la sécurité de l'information ?\n\n- **A.** En installant uniquement des antivirus sur tous les postes de travail.\n- **B.** En réalisant des audits internes et en mettant à jour régulièrement ses politiques de sécurité.\n- **C.** En empêchant l'accès à Internet à tous les employés.\n- **D.** En supprimant les sauvegardes pour éviter les fuites de données.",
+  "correction": "**Réponse : B**\n\nL'engagement se démontre par la **gouvernance** : audits internes réguliers et politiques de sécurité maintenues à jour (esprit ISO 27001 / amélioration continue). Un antivirus seul est une mesure ponctuelle, pas un engagement."
+ },
+ {
+  "id": "ssi25-q15",
+  "topic": "mesures",
+  "topicLabel": "Mesures & bonnes pratiques",
+  "title": "QCM — Assurer la confidentialité",
+  "source": "exam-ssi-25",
+  "prompt": "Quelle est la meilleure méthode pour assurer la confidentialité des informations sensibles ?\n\n- **A.** Stocker toutes les informations sur un seul serveur sans contrôle d'accès.\n- **B.** Désactiver toutes les connexions réseau.\n- **C.** Conserver tous les fichiers sensibles sur des supports papier.\n- **D.** Crypter les données et restreindre l'accès uniquement aux personnes autorisées.",
+  "correction": "**Réponse : D**\n\n**Chiffrement + contrôle d'accès restrictif** : les deux mesures qui protègent directement la confidentialité tout en gardant les données utilisables. Les autres options sont soit dangereuses, soit impraticables."
+ },
+ {
+  "id": "ssi25-q16",
+  "topic": "pentest",
+  "topicLabel": "Pentest & outils",
+  "title": "QCM — Rôle des pentests",
+  "source": "exam-ssi-25",
+  "prompt": "Quel est le rôle principal des tests de pénétration (pentests) ?\n\n- **A.** Accélérer la performance du réseau.\n- **B.** Vérifier si les employés respectent les horaires de connexion.\n- **C.** Identifier les vulnérabilités et évaluer la résistance d'un système face aux attaques.\n- **D.** Remplacer les antivirus et les pare-feux.",
+  "correction": "**Réponse : C**\n\nLe pentest **simule une attaque réelle** pour identifier les vulnérabilités exploitables et évaluer la résistance du système. Il complète (et ne remplace pas) les défenses en place."
+ },
+ {
+  "id": "ssi25-q17",
+  "topic": "pentest",
+  "topicLabel": "Pentest & outils",
+  "title": "QCM — Première étape d'un test d'intrusion",
+  "source": "exam-ssi-25",
+  "prompt": "Quelle est la première étape d'un test d'intrusion ?\n\n- **A.** L'exploitation des failles.\n- **B.** La rédaction du rapport final.\n- **C.** La phase de reconnaissance et de collecte d'informations.\n- **D.** Le test de charge du réseau.",
+  "correction": "**Réponse : C**\n\nUn pentest commence par la **reconnaissance** (collecte d'informations sur la cible : domaines, IP, services, personnels…). Vient ensuite le scan, puis l'exploitation, et enfin le rapport."
+ },
+ {
+  "id": "ssi25-q18",
+  "topic": "pentest",
+  "topicLabel": "Pentest & outils",
+  "title": "QCM — Test sans connaissance préalable",
+  "source": "exam-ssi-25",
+  "prompt": "Quel type de test d'intrusion simule une attaque menée sans aucune connaissance préalable du système ?\n\n- **A.** Boîte blanche\n- **B.** Boîte noire\n- **C.** Boîte grise\n- **D.** Analyse de vulnérabilité",
+  "correction": "**Réponse : B**\n\n**Boîte noire** : le testeur ne connaît rien du système (comme un attaquant externe). **Boîte blanche** : accès complet aux informations (code, architecture). **Boîte grise** : connaissance partielle."
+ },
+ {
+  "id": "ssi25-q19",
+  "topic": "menaces",
+  "topicLabel": "Menaces & attaques",
+  "title": "QCM — Sites illégitimes dans les résultats de recherche",
+  "source": "exam-ssi-25",
+  "prompt": "Quel type d'attaque fait remonter les sites web illégitimes dans la liste des résultats de recherche web ?\n\n- **A.** Empoisonnement DNS\n- **B.** Piratage de navigateur\n- **C.** Courrier indésirable\n- **D.** Empoisonnement par SEO",
+  "correction": "**Réponse : D**\n\nL'**empoisonnement SEO** manipule les techniques de référencement pour faire remonter des sites malveillants dans les résultats des moteurs de recherche. L'empoisonnement DNS altère la résolution de noms, pas le classement des résultats."
+ },
+ {
+  "id": "ssi25-q20",
+  "topic": "aaa",
+  "topicLabel": "AAA & authentification",
+  "title": "QCM — Rôle de la MFA",
+  "source": "exam-ssi-25",
+  "prompt": "Quel rôle joue l'authentification multifactorielle (MFA) dans la sécurité ?\n\n- **A.** Elle permet d'accélérer l'accès aux comptes.\n- **B.** Elle renforce la confidentialité en exigeant plusieurs preuves d'identité.\n- **C.** Elle remplace complètement les mots de passe.\n- **D.** Elle empêche toute tentative de connexion non autorisée.",
+  "correction": "**Réponse : B**\n\nLa **MFA** combine plusieurs facteurs (ce que je sais / possède / suis) : un mot de passe volé ne suffit plus. Elle **renforce** la protection mais ne rend pas les intrusions impossibles (option D trop absolue — piège classique)."
+ },
+ {
+  "id": "ssi25-ex2",
+  "topic": "mesures",
+  "topicLabel": "Mesures & bonnes pratiques",
+  "title": "Exercice — Classer 4 mesures de sécurité",
+  "source": "exam-ssi-25",
+  "prompt": "Pour chaque mesure ci-dessous, identifiez son objectif (**préventif, correctif ou de détection**) et indiquez la catégorie à laquelle elle appartient (**administrative** (politique et bonne pratique), **managériale** (humaine), **technique** ou **légale**).\n\n1. Mise en place d'un système de surveillance des journaux d'accès pour identifier les connexions suspectes.\n2. Formation des employés à la reconnaissance des tentatives de phishing et aux bonnes pratiques de cybersécurité.\n3. Application d'un correctif de sécurité dès qu'une faille est découverte dans un logiciel utilisé par l'entreprise.\n4. Conformité aux réglementations telles que le RGPD pour la protection des données personnelles.",
+  "correction": "**Corrigé :**\n\n| # | Mesure | Type | Catégorie |\n|---|---|---|---|\n| 1 | Surveillance des journaux d'accès | Détection | Technique |\n| 2 | Formation anti-phishing | Préventive | Managériale |\n| 3 | Application d'un correctif dès découverte d'une faille | Corrective | Technique |\n| 4 | Conformité RGPD | Préventive | Légale |"
+ },
+ {
+  "id": "ssi25-ex3",
+  "topic": "menaces",
+  "topicLabel": "Menaces & attaques",
+  "title": "Exercice — Injection SQL sur un formulaire de connexion",
+  "source": "exam-ssi-25",
+  "prompt": "Un site de commerce en ligne permet aux clients de se connecter à leur compte via un formulaire d'identification. Un utilisateur malveillant tente d'exploiter ce formulaire pour accéder à d'autres comptes **en insérant du code SQL dans le champ de saisie du mot de passe**.\n\n1. Quelle vulnérabilité pourrait être exploitée dans cette situation ?\n2. Quel risque cela représente-t-il pour l'entreprise ?\n3. Quelles mesures de sécurité peuvent être mises en place pour éviter ce type d'attaque ? Donnez-en deux exemples.",
+  "correction": "**Corrigé :**\n\n1. **Injection SQL** (SQL Injection).\n2. **Accès non autorisé aux comptes clients**, fuite de données, modification ou suppression des données.\n3. Deux mesures parmi : **requêtes préparées** (paramétrisation des requêtes SQL), **validation et filtrage des entrées** utilisateur, pare-feu applicatif web (**WAF**), authentification multi-facteurs (**MFA**)."
+ },
+ {
+  "id": "ssi25-ex4",
+  "topic": "pentest",
+  "topicLabel": "Pentest & outils",
+  "title": "Exercice — Test d'intrusion ShopSecure (e-commerce)",
+  "source": "exam-ssi-25",
+  "prompt": "ShopSecure, entreprise de commerce en ligne, traite des données sensibles (informations personnelles, paiements, historiques d'achat). Elle souhaite un **test d'intrusion** mené dans un environnement de test sécurisé pour identifier et corriger les vulnérabilités.\n\n1. L'analyste réalise une cartographie des actifs : quels éléments du SI de ShopSecure prendre en compte ?\n2. Quelles méthodes pour identifier les services et ports ouverts sur les serveurs ?\n3. Quelle technique d'attaque pourrait compromettre la base de données clients, et comment s'en protéger ?\n4. Quelles mesures vérifier pour s'assurer que les mots de passe des utilisateurs sont correctement protégés ?\n5. Pourquoi analyser les logs de sécurité après un test d'intrusion ? Quelles informations en extraire ?\n6. Que contient le rapport final présenté à ShopSecure ?",
+  "correction": "**Corrigé :**\n\n1. **Cartographie des actifs** : infrastructures matérielles (serveurs web et BD, pare-feu, routeurs/switchs, postes, mobiles) ; applications (site e-commerce…) ; données sensibles (infos personnelles, paiements, historiques) ; identités et accès (comptes utilisateurs, employés, administrateurs).\n2. **Scan de ports avec Nmap** ; **scan de vulnérabilités avec OpenVAS ou Nessus**.\n3. **Injection SQL.** Protections : requêtes préparées, validation/contrôle des entrées, restriction des privilèges des comptes SQL, chiffrement des données sensibles.\n4. **Stockage des mots de passe** : algorithme de hachage sécurisé, 2FA/MFA, politique de mot de passe (longueur, complexité — majuscule/minuscule/chiffre/caractère spécial —, verrouillage après tentatives, durée de vie).\n5. Les logs permettent de **détecter les intrusions** et comportements suspects : tentatives d'accès non autorisées (échecs répétés, IP suspectes), activités inhabituelles sur la base de données, modifications non autorisées de fichiers.\n6. **Rapport final** : recommandations et mesures correctives ; techniques et outils utilisés ; liste des failles classées par gravité (faible/moyen/critique) ; description des attaques possibles et de leurs conséquences, avec preuves."
+ },
+ {
+  "id": "sr24-q1",
+  "topic": "menaces",
+  "topicLabel": "Menaces & attaques",
+  "title": "QCM — Botnet",
+  "source": "exam-sr-24",
+  "prompt": "Qu'est-ce qu'un botnet ?\n\n- **A.** Un réseau de robots physiques.\n- **B.** Un logiciel antivirus.\n- **C.** Un type de malware.\n- **D.** Un réseau d'ordinateurs infectés utilisés pour lancer des attaques.",
+  "correction": "**Réponse : D**\n\nUn **botnet** est un réseau de machines compromises (« zombies ») pilotées à distance par un attaquant, typiquement pour lancer des attaques **DDoS**, du spam ou du minage."
+ },
+ {
+  "id": "sr24-q2",
+  "topic": "menaces",
+  "topicLabel": "Menaces & attaques",
+  "title": "QCM — Attaque MITM",
+  "source": "exam-sr-24",
+  "prompt": "Qu'est-ce qu'une attaque Man-in-the-Middle (MITM) ?\n\n- **A.** Une attaque qui exploite les faiblesses d'un serveur web.\n- **B.** Une attaque qui intercepte et altère les communications entre deux parties.\n- **C.** Une attaque qui utilise des logiciels malveillants pour compromettre un système.",
+  "correction": "**Réponse : B**\n\nLe MITM consiste à **s'interposer entre deux parties** pour intercepter, lire ou modifier leurs échanges sans qu'elles s'en aperçoivent (ex. ARP spoofing, faux point d'accès Wi-Fi)."
+ },
+ {
+  "id": "sr24-q3",
+  "topic": "menaces",
+  "topicLabel": "Menaces & attaques",
+  "title": "QCM — Code malveillant visant la base de données",
+  "source": "exam-sr-24",
+  "prompt": "Quelle attaque informatique consiste à insérer du code malveillant dans une application Web pour exploiter les vulnérabilités de sécurité de la base de données ?\n\n- **A.** Injection SQL\n- **B.** Attaque par force brute\n- **C.** Phishing\n- **D.** Attaque par déni de service (DDoS)",
+  "correction": "**Réponse : A**\n\nC'est la définition de l'**injection SQL** : injecter du code SQL via les entrées d'une application web pour manipuler la base de données."
+ },
+ {
+  "id": "sr24-q4",
+  "topic": "menaces",
+  "topicLabel": "Menaces & attaques",
+  "title": "QCM — Attaques réalisant un déni de service (2 réponses)",
+  "source": "exam-sr-24",
+  "prompt": "Parmi ces attaques, lesquelles réalisent un déni de service (DoS) ?\n\n- **A.** SYN flooding\n- **B.** Ping of Death\n- **C.** IP spoofing\n- **D.** DNS spoofing",
+  "correction": "**Réponse : A, B**\n\n**SYN flooding** (saturation par demi-connexions TCP) et **Ping of Death** (paquets ICMP malformés/surdimensionnés) visent à rendre la cible indisponible. IP spoofing et DNS spoofing sont des techniques d'usurpation, pas des DoS en soi."
+ },
+ {
+  "id": "sr24-q5",
+  "topic": "aaa",
+  "topicLabel": "AAA & authentification",
+  "title": "QCM — RADIUS vs TACACS+ : chiffrement",
+  "source": "exam-sr-24",
+  "prompt": "Quelle est la principale différence entre RADIUS et TACACS+ en termes de transmission de données ?\n\n- **A.** RADIUS chiffre toute la communication, alors que TACACS+ ne chiffre que les mots de passe.\n- **B.** RADIUS ne chiffre que les mots de passe, tandis que TACACS+ chiffre toute la communication.\n- **C.** RADIUS et TACACS+ chiffrent tous deux l'intégralité des données.\n- **D.** Ni RADIUS ni TACACS+ ne fournissent de chiffrement.",
+  "correction": "**Réponse : B**\n\n**RADIUS** ne chiffre que le **mot de passe** dans le paquet ; **TACACS+** chiffre **tout le corps du paquet**. C'est l'une des deux différences classiques (l'autre : UDP vs TCP)."
+ },
+ {
+  "id": "sr24-q6",
+  "topic": "aaa",
+  "topicLabel": "AAA & authentification",
+  "title": "QCM — Authentification vs autorisation (AAA)",
+  "source": "exam-sr-24",
+  "prompt": "Quelle est la principale différence entre l'authentification et l'autorisation dans le cadre des serveurs AAA ?\n\n- **A.** L'authentification vérifie qui vous êtes, l'autorisation détermine ce que vous êtes autorisé à faire.\n- **B.** L'authentification détermine ce que vous êtes autorisé à faire, l'autorisation vérifie qui vous êtes.\n- **C.** Il n'y a pas de différence significative.\n- **D.** L'authentification est utilisée uniquement par les administrateurs, l'autorisation uniquement par les utilisateurs.",
+  "correction": "**Réponse : A**\n\n**Authentification** = prouver son identité (*qui* vous êtes). **Autorisation** = déterminer les droits (*ce que* vous pouvez faire). Le troisième A, **Accounting/Traçabilité**, journalise l'activité."
+ },
+ {
+  "id": "sr24-q7",
+  "topic": "aaa",
+  "topicLabel": "AAA & authentification",
+  "title": "QCM — Journalisation dans AAA",
+  "source": "exam-sr-24",
+  "prompt": "Quelle partie de AAA est responsable de suivre et de journaliser l'activité des utilisateurs ?\n\n- **A.** Authentification\n- **B.** Autorisation\n- **C.** Analyse\n- **D.** Traçabilité",
+  "correction": "**Réponse : D**\n\nLa **traçabilité** (Accounting) enregistre qui a fait quoi, quand et combien de temps — utile pour l'audit, la facturation et l'investigation d'incidents."
+ },
+ {
+  "id": "sr24-q8",
+  "topic": "aaa",
+  "topicLabel": "AAA & authentification",
+  "title": "QCM — RADIUS vs TACACS+ : transport",
+  "source": "exam-sr-24",
+  "prompt": "Quelle est la principale différence entre RADIUS et TACACS+ en termes de transport ?\n\n- **A.** RADIUS utilise UDP, tandis que TACACS+ utilise TCP.\n- **B.** RADIUS utilise TCP, tandis que TACACS+ utilise UDP.\n- **C.** RADIUS utilise SSL, tandis que TACACS+ utilise IPSec.\n- **D.** RADIUS utilise HTTP, tandis que TACACS+ utilise FTP.",
+  "correction": "**Réponse : A**\n\n**RADIUS → UDP** (ports 1812/1813), **TACACS+ → TCP** (port 49). À mémoriser avec l'autre différence : TACACS+ chiffre tout le paquet, RADIUS seulement le mot de passe."
+ },
+ {
+  "id": "sr24-q9",
+  "topic": "firewall",
+  "topicLabel": "Pare-feu, ACL & IDS",
+  "title": "QCM — Zone-Based Firewall",
+  "source": "exam-sr-24",
+  "prompt": "Qu'est-ce qu'un Zone-Based Firewall (ZBF) ?\n\n- **A.** Un firewall qui filtre les paquets uniquement en fonction des adresses IP.\n- **B.** Un firewall qui utilise des zones pour définir des politiques de sécurité.\n- **C.** Un firewall matériel avec des capacités de routage.\n- **D.** Un firewall intégré dans les systèmes d'exploitation.",
+  "correction": "**Réponse : B**\n\nUn **ZBF** regroupe les interfaces en **zones** (inside, outside, DMZ…) et applique les politiques de sécurité **entre zones** plutôt qu'interface par interface."
+ },
+ {
+  "id": "sr24-q10",
+  "topic": "firewall",
+  "topicLabel": "Pare-feu, ACL & IDS",
+  "title": "QCM — DMZ",
+  "source": "exam-sr-24",
+  "prompt": "Qu'est-ce qu'une « zone démilitarisée » (DMZ) dans le contexte de la sécurité réseau ?\n\n- **A.** Une zone réservée aux soldats sur un réseau militaire.\n- **B.** Une zone tampon entre le réseau interne et le réseau externe, contenant des serveurs accessibles au public.\n- **C.** Une méthode de cryptage des données en transit.",
+  "correction": "**Réponse : B**\n\nLa **DMZ** est une zone tampon qui héberge les serveurs exposés au public (web, FTP, messagerie externe) en les isolant du réseau interne : si un serveur de la DMZ est compromis, l'attaquant n'atteint pas directement le LAN."
+ },
+ {
+  "id": "sr24-q11",
+  "topic": "firewall",
+  "topicLabel": "Pare-feu, ACL & IDS",
+  "title": "QCM — Comportement par défaut d'une ACL",
+  "source": "exam-sr-24",
+  "prompt": "Quel est l'effet par défaut d'une ACL si aucune règle ne correspond à un paquet ?\n\n- **A.** Le paquet est autorisé à passer.\n- **B.** Le paquet est mis en file d'attente pour une inspection ultérieure.\n- **C.** Le paquet est rejeté.\n- **D.** Le comportement par défaut doit être spécifié lors de la configuration de l'ACL.",
+  "correction": "**Réponse : C**\n\nToute ACL Cisco se termine par un **« deny any » implicite** : un paquet qui ne correspond à aucune règle est **rejeté**. D'où l'importance d'un `permit` explicite pour le trafic légitime."
+ },
+ {
+  "id": "sr24-q12",
+  "topic": "firewall",
+  "topicLabel": "Pare-feu, ACL & IDS",
+  "title": "QCM — Ordre d'évaluation d'une ACL",
+  "source": "exam-sr-24",
+  "prompt": "Quel est l'ordre d'évaluation des règles dans une ACL ?\n\n- **A.** De haut en bas, jusqu'à ce qu'une correspondance soit trouvée.\n- **B.** De bas en haut, jusqu'à ce qu'une correspondance soit trouvée.\n- **C.** Aléatoirement.\n- **D.** En fonction de la complexité des critères de correspondance.",
+  "correction": "**Réponse : A**\n\nLes règles sont évaluées **séquentiellement de haut en bas** ; la **première correspondance** s'applique et l'évaluation s'arrête. Il faut donc placer les règles les plus spécifiques en premier."
+ },
+ {
+  "id": "sr24-q13",
+  "topic": "firewall",
+  "topicLabel": "Pare-feu, ACL & IDS",
+  "title": "QCM — Administration distante sécurisée",
+  "source": "exam-sr-24",
+  "prompt": "Quel protocole est souvent utilisé pour configurer à distance les firewalls via une connexion sécurisée ?\n\n- **A.** HTTP\n- **B.** FTP\n- **C.** SSH\n- **D.** Telnet",
+  "correction": "**Réponse : C**\n\n**SSH** chiffre la session d'administration à distance. Telnet transmet tout en clair (y compris les mots de passe) — piège classique."
+ },
+ {
+  "id": "sr24-q14",
+  "topic": "crypto",
+  "topicLabel": "Cryptographie",
+  "title": "QCM — Algorithme de hachage",
+  "source": "exam-sr-24",
+  "prompt": "Qu'est-ce qu'un algorithme de hachage ?\n\n- **A.** Un algorithme pour créer une empreinte unique d'une donnée.\n- **B.** Un algorithme pour chiffrer des données.\n- **C.** Un algorithme pour compresser des fichiers.\n- **D.** Un algorithme pour défragmenter un disque dur.",
+  "correction": "**Réponse : A**\n\nLe hachage produit une **empreinte (digest) unique et de taille fixe** à partir d'une donnée quelconque. Irréversible, il sert à vérifier l'**intégrité** — ce n'est ni du chiffrement ni de la compression."
+ },
+ {
+  "id": "sr24-q15",
+  "topic": "crypto",
+  "topicLabel": "Cryptographie",
+  "title": "QCM — Symétrique vs asymétrique",
+  "source": "exam-sr-24",
+  "prompt": "Quelle est la principale différence entre un chiffrement symétrique et un chiffrement asymétrique ?\n\n- **A.** Symétrique est plus sécurisé qu'asymétrique.\n- **B.** Symétrique utilise une seule clé, asymétrique utilise une clé publique et une clé privée.\n- **C.** Asymétrique est plus rapide que symétrique.",
+  "correction": "**Réponse : B**\n\n**Symétrique** : une seule clé secrète partagée (rapide, ex. AES). **Asymétrique** : paire clé publique/privée (plus lent, ex. RSA) — résout le problème de distribution des clés. En pratique on combine les deux (hybride)."
+ },
+ {
+  "id": "sr24-q16",
+  "topic": "crypto",
+  "topicLabel": "Cryptographie",
+  "title": "QCM — RSA",
+  "source": "exam-sr-24",
+  "prompt": "Qu'est-ce que l'algorithme de chiffrement RSA, et quel type de chiffrement utilise-t-il ?\n\n- **A.** RSA est un algorithme de chiffrement symétrique utilisant une clé publique et une clé privée.\n- **B.** RSA est un algorithme de hachage utilisé pour garantir l'intégrité des fichiers.\n- **C.** RSA est un algorithme de chiffrement asymétrique largement utilisé, basé sur la factorisation de grands nombres premiers.\n- **D.** RSA est un algorithme quantique destiné à sécuriser les communications dans des environnements quantiques.",
+  "correction": "**Réponse : C**\n\n**RSA** est l'algorithme **asymétrique** de référence : sa sécurité repose sur la difficulté de **factoriser de grands nombres premiers**. Il sert au chiffrement de clés et aux signatures numériques."
+ },
+ {
+  "id": "sr24-q17",
+  "topic": "vpn",
+  "topicLabel": "VPN & IPsec",
+  "title": "QCM — Rôle d'un VPN",
+  "source": "exam-sr-24",
+  "prompt": "Quel est le rôle d'un VPN dans la protection des données ?\n\n- **A.** Surveiller le trafic réseau.\n- **B.** Chiffrer les données transmises.\n- **C.** Stocker des données hors site.\n- **D.** Bloquer les sites web dangereux.",
+  "correction": "**Réponse : B**\n\nLe **VPN** crée un tunnel qui **chiffre les données en transit** entre le client et le réseau distant, protégeant la confidentialité même sur un réseau non fiable."
+ },
+ {
+  "id": "sr24-q18",
+  "topic": "vpn",
+  "topicLabel": "VPN & IPsec",
+  "title": "QCM — VPN pour le télétravail",
+  "source": "exam-sr-24",
+  "prompt": "Quel type de VPN permet aux utilisateurs de se connecter à un réseau d'entreprise depuis un endroit distant, comme leur domicile ?\n\n- **A.** Site-to-site VPN\n- **B.** Remote Access VPN\n- **C.** Intranet VPN\n- **D.** Extranet VPN",
+  "correction": "**Réponse : B**\n\nLe **Remote Access VPN** connecte un utilisateur individuel (télétravailleur) au réseau d'entreprise. Le **site-to-site** relie deux réseaux entiers (ex. deux agences) via leurs routeurs/passerelles."
+ },
+ {
+  "id": "sr24-q19",
+  "topic": "vpn",
+  "topicLabel": "VPN & IPsec",
+  "title": "QCM — VPN et restrictions géographiques",
+  "source": "exam-sr-24",
+  "prompt": "Les VPN peuvent contourner les restrictions géographiques en :\n\n- **A.** Augmentant la bande passante.\n- **B.** Utilisant des serveurs DNS.\n- **C.** Changeant l'adresse IP de l'utilisateur.\n- **D.** Chiffrant les fichiers locaux.",
+  "correction": "**Réponse : C**\n\nEn sortant par un serveur VPN situé dans un autre pays, l'utilisateur apparaît avec **l'adresse IP de ce serveur** — les services voient donc une localisation différente."
+ },
+ {
+  "id": "sr24-q20",
+  "topic": "vpn",
+  "topicLabel": "VPN & IPsec",
+  "title": "QCM — Tunnelisation",
+  "source": "exam-sr-24",
+  "prompt": "Lors de la connexion à un VPN, le processus de tunnelisation signifie :\n\n- **A.** L'augmentation de la vitesse de la connexion.\n- **B.** La réduction de la bande passante.\n- **C.** La mise à jour automatique du firmware.\n- **D.** Le routage de toutes les communications via un chemin sécurisé.",
+  "correction": "**Réponse : D**\n\nLa **tunnelisation** encapsule les paquets dans un canal chiffré : toutes les communications transitent par ce **chemin sécurisé** entre le client et la passerelle VPN."
+ },
+ {
+  "id": "sr24-ex2",
+  "topic": "aaa",
+  "topicLabel": "AAA & authentification",
+  "title": "Exercice — Commandes AAA (TACACS+, RADIUS, SSH)",
+  "source": "exam-sr-24",
+  "prompt": "Décrivez la fonction de chaque commande ou bloc de commandes ci-dessous.\n\n1. `R2(config)# aaa authentication login myauth group tacacs+ local`\n\n2. `R2(config)# tacacs-server host 10.1.1.10 key mykey`\n\n3.\n```\nR1(config)# aaa authentication login SSH-LOGIN local\nR1(config)# line vty 0 4\nR1(config-line)# login authentication SSH-LOGIN\nR1(config-line)# transport input ssh\n```\n\n4.\n```\nR3(config)# radius-server host 192.168.3.2\nR3(config)# radius-server key radiuspa55\n```\n\n5.\n```\nR1(config)# username Admin1 secret admin1pa55\nR1(config)# aaa new-model\nR1(config)# aaa authentication login default local\n```",
+  "correction": "**Corrigé :**\n\n1. Configure une authentification AAA pour l'accès à l'équipement via la liste **« myauth »**, qui essaie **deux méthodes successives** : le serveur **TACACS+**, puis la **base locale** du routeur si le serveur TACACS+ est inaccessible.\n2. Déclare le **serveur TACACS+ 10.1.1.10** pour l'authentification AAA ; la clé **« mykey »** chiffre/authentifie la session entre le routeur et le serveur TACACS+.\n3. Crée une liste d'authentification nommée **« SSH-LOGIN »** basée uniquement sur la **base locale**, l'applique aux **lignes vty 0-4** (accès distant) et n'autorise que **SSH** comme protocole d'accès (Telnet exclu).\n4. Configure **l'adresse IP et la clé secrète du serveur AAA RADIUS** (192.168.3.2, clé `radiuspa55`) sur R3.\n5. Active le modèle **AAA** (`aaa new-model`), crée l'utilisateur local **Admin1** avec mot de passe secret `admin1pa55`, et fait de la **base locale** la méthode d'authentification **par défaut** pour les connexions."
+ },
+ {
+  "id": "sr24-ex3",
+  "topic": "firewall",
+  "topicLabel": "Pare-feu, ACL & IDS",
+  "title": "Exercice — ACL étendue : analyse",
+  "source": "exam-sr-24",
+  "prompt": "Pour assurer la sécurité des accès, on a implémenté cette ACL sur le routeur :\n\n```\nRouter(config)# access-list 101 permit ip 172.16.3.0 0.0.0.255 10.10.10.0 0.0.0.255\n```\n\n1. Quel type d'ACL avons-nous choisi ? Justifiez votre réponse.\n2. À quoi sert-elle ?\n3. Après avoir configuré cette ACL, l'administrateur a remarqué qu'elle n'avait aucun effet. Pourquoi ?\n4. Où doit-on appliquer cette ACL ? Justifiez votre réponse.",
+  "correction": "**Corrigé :**\n\n1. C'est une **ACL étendue**, car son numéro **101** est dans la plage **100–199** (et elle filtre sur source *et* destination).\n2. Elle **autorise les paquets IP du réseau 172.16.3.0/24 vers le réseau 10.10.10.0/24** (le masque générique 0.0.0.255 couvre tout le /24).\n3. Une ACL n'a **aucun effet tant qu'elle n'est pas appliquée à une interface** (avec `ip access-group 101 in|out`).\n4. Sur **l'interface la plus proche de la source** (ici G0/0) : c'est la règle pour les **ACL étendues**, afin de bloquer/filtrer le trafic au plus tôt. (Les ACL standard, elles, se placent près de la destination.)"
+ },
+ {
+  "id": "sr24-ex4",
+  "topic": "vpn",
+  "topicLabel": "VPN & IPsec",
+  "title": "Exercice — VPN IPsec site-à-site (ISAKMP)",
+  "source": "exam-sr-24",
+  "prompt": "On considère l'interconnexion VPN de l'entreprise entre les routeurs R1 et R3.\n\n1. Quelles vérifications faire sur les routeurs R1 et R3 avant d'installer le VPN ?\n2. Lequel des protocoles AH ou ESP est utilisé pour la transmission des données entre R1 et R3 ?\n3. À quoi servent les commandes suivantes ?\n```\ncrypto isakmp policy 10\n encryption aes 256\n authentication pre-share\n group 5\n```\n4. À quoi sert cette commande ?\n```\ncrypto isakmp key vpnpa55 address 10.2.2.2\n```\n5. Si le PC-C (réseau 192.168.3.0) ping le PC-B (réseau 192.168.2.0), la communication sera-t-elle chiffrée, sachant que le tunnel est défini entre 192.168.3.0 et 192.168.1.0 ?",
+  "correction": "**Corrigé :**\n\n1. Vérifier que les routeurs disposent du **package/licence de sécurité** (securityk9) nécessaire à IPsec.\n2. **ESP** (Encapsulating Security Payload) : c'est lui qui **chiffre** les données. AH n'assure qu'intégrité et authentification, sans confidentialité.\n3. Ces commandes configurent la **politique ISAKMP (phase 1)** n° 10 : `encryption aes 256` = chiffrement **AES-256** ; `authentication pre-share` = authentification des deux routeurs par **clé pré-partagée** ; `group 5` = groupe **Diffie-Hellman 5** (clés de 1536 bits) pour l'échange de clés.\n4. Elle définit la **clé pré-partagée « vpnpa55 »** utilisée pour l'authentification ISAKMP avec le pair VPN d'adresse **10.2.2.2**.\n5. **Non.** PC-B est dans le réseau **192.168.2.0**, or le tunnel ne couvre que le trafic entre **192.168.3.0 et 192.168.1.0** : ce trafic ne correspond pas à l'ACL crypto, il passe donc **en clair**."
+ },
+ {
+  "id": "rat24-q1",
+  "topic": "vpn",
+  "topicLabel": "VPN & IPsec",
+  "title": "QCM — Avantages/inconvénients des VPN",
+  "source": "exam-rat-24",
+  "prompt": "Quels sont les avantages et les inconvénients des réseaux privés virtuels (VPN) en termes de sécurité des données ?\n\n- **A.** Avantage : chiffrement des données ; Inconvénient : réduction possible de la vitesse de connexion.\n- **B.** Avantage : accès à des ressources locales ; Inconvénient : coût élevé.\n- **C.** Avantage : augmentation du débit réseau ; Inconvénient : complexité de configuration.\n- **D.** Avantage : aucun ; Inconvénient : réduction de la sécurité.",
+  "correction": "**Réponse : A**\n\nLe VPN apporte le **chiffrement du trafic** (confidentialité), au prix d'un **surcoût de latence/débit** dû au chiffrement et au détour par le serveur VPN."
+ },
+ {
+  "id": "rat24-q2",
+  "topic": "crypto",
+  "topicLabel": "Cryptographie",
+  "title": "QCM — Service protégeant les données en transit",
+  "source": "exam-rat-24",
+  "prompt": "Quel service de sécurité garantit que les données ne soient pas accessibles durant le transit ?\n\n- **A.** Confidentialité\n- **B.** Disponibilité\n- **C.** Intégrité\n- **D.** Non-répudiation",
+  "correction": "**Réponse : A**\n\nLa **confidentialité** garantit que les données ne sont pas lisibles par des tiers non autorisés — en transit, elle est assurée par le chiffrement. L'intégrité garantit qu'elles ne sont pas *modifiées*, nuance classique de QCM."
+ },
+ {
+  "id": "rat24-q3",
+  "topic": "aaa",
+  "topicLabel": "AAA & authentification",
+  "title": "QCM — Facteur « ce que je possède »",
+  "source": "exam-rat-24",
+  "prompt": "Quel est un exemple de facteur d'authentification basé sur quelque chose que l'utilisateur **possède** ?\n\n- **A.** Un mot de passe\n- **B.** Une empreinte digitale\n- **C.** Un jeton de sécurité\n- **D.** Une question secrète",
+  "correction": "**Réponse : C**\n\nLes trois familles de facteurs : **ce que je sais** (mot de passe, question secrète), **ce que je possède** (jeton, carte, téléphone), **ce que je suis** (biométrie). Le jeton de sécurité relève de la possession."
+ },
+ {
+  "id": "rat24-q4",
+  "topic": "pentest",
+  "topicLabel": "Pentest & outils",
+  "title": "QCM — Scan de vulnérabilités",
+  "source": "exam-rat-24",
+  "prompt": "À quoi sert un scan de vulnérabilités ?\n\n- **A.** Déterminer quels ports sont ouverts sur un réseau.\n- **B.** Identifier des failles de sécurité potentielles dans un système.\n- **C.** Authentifier les utilisateurs.\n- **D.** Surveiller l'activité réseau.",
+  "correction": "**Réponse : B**\n\nLe scan de vulnérabilités **identifie les failles potentielles** (versions vulnérables, mauvaises configurations, patchs manquants). Le simple scan de ports (option A) n'en est qu'une composante."
+ },
+ {
+  "id": "rat24-q5",
+  "topic": "mesures",
+  "topicLabel": "Mesures & bonnes pratiques",
+  "title": "QCM — Se prémunir du phishing",
+  "source": "exam-rat-24",
+  "prompt": "Quelle est l'une des principales méthodes pour éviter les attaques par hameçonnage (phishing) ?\n\n- **A.** Utiliser un pare-feu pour bloquer les tentatives d'accès non autorisées.\n- **B.** Éduquer les utilisateurs sur la reconnaissance des e-mails et des sites web frauduleux.\n- **C.** Utiliser des logiciels antivirus pour scanner tous les e-mails entrants.\n- **D.** Rendre obligatoire l'utilisation de mots de passe complexes.",
+  "correction": "**Réponse : B**\n\nLe phishing cible **l'humain** : la défense la plus efficace est la **sensibilisation/éducation des utilisateurs** à reconnaître les e-mails et sites frauduleux. Les mesures techniques aident mais ne suffisent pas."
+ },
+ {
+  "id": "rat24-q6",
+  "topic": "menaces",
+  "topicLabel": "Menaces & attaques",
+  "title": "QCM — Social Engineering",
+  "source": "exam-rat-24",
+  "prompt": "Qu'est-ce que le « Social Engineering » dans le contexte de la sécurité ?\n\n- **A.** L'étude des effets des réseaux sociaux sur la sécurité.\n- **B.** La conception de systèmes sociaux qui améliorent la sensibilisation à la sécurité.\n- **C.** Les techniques utilisées pour manipuler les personnes afin d'obtenir des informations confidentielles.\n- **D.** Le développement de logiciels utilisés pour la communication sociale sécurisée.",
+  "correction": "**Réponse : C**\n\nL'**ingénierie sociale** manipule la psychologie humaine (confiance, urgence, autorité) pour soutirer des informations confidentielles ou faire exécuter des actions — phishing, prétexting, baiting…"
+ },
+ {
+  "id": "rat24-q7",
+  "topic": "aaa",
+  "topicLabel": "AAA & authentification",
+  "title": "QCM — RADIUS vs TACACS+ : transport (bis)",
+  "source": "exam-rat-24",
+  "prompt": "Quelle est la principale différence entre RADIUS et TACACS+ en termes de transport ?\n\n- **A.** RADIUS utilise UDP, tandis que TACACS+ utilise TCP.\n- **B.** RADIUS utilise TCP, tandis que TACACS+ utilise UDP.\n- **C.** RADIUS utilise SSL, tandis que TACACS+ utilise IPSec.\n- **D.** RADIUS utilise HTTP, tandis que TACACS+ utilise FTP.",
+  "correction": "**Réponse : A**\n\nQuestion récurrente d'un examen à l'autre : **RADIUS → UDP**, **TACACS+ → TCP (port 49)**. À connaître par cœur."
+ },
+ {
+  "id": "rat24-q8",
+  "topic": "firewall",
+  "topicLabel": "Pare-feu, ACL & IDS",
+  "title": "QCM — Honeypot",
+  "source": "exam-rat-24",
+  "prompt": "Qu'est-ce qu'un pot de miel (honeypot) dans le contexte de la sécurité ?\n\n- **A.** Un type de malware.\n- **B.** Un outil de détection des intrusions.\n- **C.** Un piège qui attire les attaquants vers un système contrôlé pour étudier leurs activités.\n- **D.** Un programme de gestion des incidents de sécurité.",
+  "correction": "**Réponse : C**\n\nUn **honeypot** est un système volontairement exposé et contrôlé qui **attire les attaquants** pour observer leurs techniques, les détourner des vrais systèmes et collecter du renseignement."
+ },
+ {
+  "id": "rat24-q9",
+  "topic": "firewall",
+  "topicLabel": "Pare-feu, ACL & IDS",
+  "title": "QCM — Zone-Based Firewall (bis)",
+  "source": "exam-rat-24",
+  "prompt": "Qu'est-ce qu'un Zone-Based Firewall (ZBF) ?\n\n- **A.** Un firewall qui filtre les paquets uniquement en fonction des adresses IP.\n- **B.** Un firewall qui utilise des zones pour définir des politiques de sécurité.\n- **C.** Un firewall matériel avec des capacités de routage.\n- **D.** Un firewall intégré dans les systèmes d'exploitation.",
+  "correction": "**Réponse : B**\n\nLes interfaces sont regroupées en **zones** et les politiques s'appliquent aux **paires de zones** (ex. inside → outside). Question posée à l'identique dans l'examen final."
+ },
+ {
+  "id": "rat24-q10",
+  "topic": "firewall",
+  "topicLabel": "Pare-feu, ACL & IDS",
+  "title": "QCM — DMZ (bis)",
+  "source": "exam-rat-24",
+  "prompt": "Qu'est-ce qu'une « zone démilitarisée » (DMZ) dans le contexte de la sécurité réseau ?\n\n- **A.** Une zone réservée aux soldats sur un réseau militaire.\n- **B.** Une zone tampon entre le réseau interne et le réseau externe, contenant des serveurs accessibles au public.\n- **C.** Une méthode de cryptage des données en transit.",
+  "correction": "**Réponse : B**\n\n**Zone tampon** entre Internet et le LAN, hébergeant les serveurs publics (web, FTP…). Item récurrent d'un examen à l'autre — à sécuriser absolument."
+ },
+ {
+  "id": "rat24-q11",
+  "topic": "pentest",
+  "topicLabel": "Pentest & outils",
+  "title": "QCM — Objectif d'un scan de ports",
+  "source": "exam-rat-24",
+  "prompt": "Quel est l'objectif principal d'un scan de ports ?\n\n- **A.** Vérifier l'intégrité des données.\n- **B.** Découvrir des services non sécurisés sur un réseau.\n- **C.** Crypter les communications.\n- **D.** Authentifier les utilisateurs.",
+  "correction": "**Réponse : B**\n\nLe scan de ports révèle les **ports ouverts et les services** qui écoutent — première étape pour repérer des services exposés ou non sécurisés (ex. avec Nmap)."
+ },
+ {
+  "id": "rat24-q12",
+  "topic": "menaces",
+  "topicLabel": "Menaces & attaques",
+  "title": "QCM — Faille exploitée avant le patch",
+  "source": "exam-rat-24",
+  "prompt": "Lequel décrit une vulnérabilité logicielle exploitant une faille de sécurité avant qu'un patch de protection (mise à jour) ne soit disponible ?\n\n- **A.** Buffer overflow\n- **B.** Mystification d'adresse MAC\n- **C.** Zero day attack\n- **D.** Déni de service",
+  "correction": "**Réponse : C**\n\nUne attaque **zero-day** exploite une faille **inconnue de l'éditeur** (ou non corrigée) : aucun patch n'existe encore, d'où le « jour zéro »."
+ },
+ {
+  "id": "rat24-q13",
+  "topic": "pentest",
+  "topicLabel": "Pentest & outils",
+  "title": "QCM — But d'un test d'intrusion",
+  "source": "exam-rat-24",
+  "prompt": "Que vise principalement un test d'intrusion ?\n\n- **A.** Renforcer le système contre les attaques.\n- **B.** Simuler une attaque pour identifier les faiblesses de sécurité.\n- **C.** Installer des mises à jour de sécurité.\n- **D.** Former les employés à la sécurité.",
+  "correction": "**Réponse : B**\n\nLe pentest **simule une attaque réelle** pour découvrir les faiblesses exploitables. Le renforcement (option A) est la *conséquence* des recommandations du rapport, pas le test lui-même."
+ },
+ {
+  "id": "rat24-q14",
+  "topic": "firewall",
+  "topicLabel": "Pare-feu, ACL & IDS",
+  "title": "QCM — Firewall stateful",
+  "source": "exam-rat-24",
+  "prompt": "Quel est l'avantage principal d'un firewall à état (stateful) par rapport à un firewall à filtrage de paquets ?\n\n- **A.** Moins coûteux.\n- **B.** Plus facile à configurer.\n- **C.** Peut suivre l'état des connexions et filtrer les paquets en fonction de ces informations.\n- **D.** Peut crypter les données.",
+  "correction": "**Réponse : C**\n\nLe firewall **stateful** maintient une **table d'états des connexions** : il sait si un paquet appartient à une session légitime déjà établie, là où le filtrage de paquets simple examine chaque paquet isolément."
+ },
+ {
+  "id": "rat24-q15",
+  "topic": "firewall",
+  "topicLabel": "Pare-feu, ACL & IDS",
+  "title": "QCM — Administration distante (bis)",
+  "source": "exam-rat-24",
+  "prompt": "Quel protocole est souvent utilisé pour configurer à distance les firewalls via une connexion sécurisée ?\n\n- **A.** HTTP\n- **B.** FTP\n- **C.** SSH\n- **D.** Telnet",
+  "correction": "**Réponse : C**\n\n**SSH** — session chiffrée. Question posée à l'identique dans l'examen final : à connaître."
+ },
+ {
+  "id": "rat24-q16",
+  "topic": "firewall",
+  "topicLabel": "Pare-feu, ACL & IDS",
+  "title": "QCM — ACL standard",
+  "source": "exam-rat-24",
+  "prompt": "Quel type d'ACL filtre le trafic en fonction des adresses IP source et destination uniquement ?\n\n- **A.** ACL standard\n- **B.** ACL étendue\n- **C.** ACL nommée\n- **D.** ACL dynamique",
+  "correction": "**Réponse : A**\n\nRéponse officielle : **ACL standard**. À retenir pour l'examen : l'ACL **standard** (1–99) est la plus simple — elle filtre sur l'adresse IP **source** ; l'ACL **étendue** (100–199) ajoute destination, protocole et ports."
+ },
+ {
+  "id": "rat24-q17",
+  "topic": "firewall",
+  "topicLabel": "Pare-feu, ACL & IDS",
+  "title": "QCM — Appliquer une ACL à une interface",
+  "source": "exam-rat-24",
+  "prompt": "Quelle commande est utilisée pour appliquer une ACL à une interface sur un routeur Cisco ?\n\n- **A.** ip access-group\n- **B.** ip access-list\n- **C.** access-control\n- **D.** apply acl",
+  "correction": "**Réponse : A**\n\n`ip access-group <ACL> in|out` **applique** l'ACL à l'interface (en mode config-if). `ip access-list` sert à **créer/éditer** une ACL nommée. Sans application à une interface, l'ACL est sans effet."
+ },
+ {
+  "id": "rat24-q18",
+  "topic": "vpn",
+  "topicLabel": "VPN & IPsec",
+  "title": "QCM — Rôle d'un VPN (bis)",
+  "source": "exam-rat-24",
+  "prompt": "Quel est le rôle d'un VPN dans la protection des données ?\n\n- **A.** Surveiller le trafic réseau.\n- **B.** Chiffrer les données transmises.\n- **C.** Stocker des données hors site.\n- **D.** Bloquer les sites web dangereux.",
+  "correction": "**Réponse : B**\n\nLe VPN **chiffre les données en transit** dans un tunnel sécurisé. Question posée à l'identique dans l'examen final."
+ },
+ {
+  "id": "rat24-q19",
+  "topic": "vpn",
+  "topicLabel": "VPN & IPsec",
+  "title": "QCM — VPN d'accès distant (bis)",
+  "source": "exam-rat-24",
+  "prompt": "Quel type de VPN permet aux utilisateurs de se connecter à un réseau d'entreprise depuis un endroit distant, comme leur domicile ?\n\n- **A.** Site-to-site VPN\n- **B.** Remote Access VPN\n- **C.** Intranet VPN\n- **D.** Extranet VPN",
+  "correction": "**Réponse : B**\n\n**Remote Access VPN** : un utilisateur distant ↔ le réseau d'entreprise. Le site-to-site relie deux réseaux entiers. Item récurrent."
+ },
+ {
+  "id": "rat24-q20",
+  "topic": "vpn",
+  "topicLabel": "VPN & IPsec",
+  "title": "QCM — Cryptographie des VPN (2 réponses)",
+  "source": "exam-rat-24",
+  "prompt": "Quel type de cryptographie est généralement utilisé pour sécuriser les communications VPN ?\n\n- **A.** Cryptographie symétrique\n- **B.** Cryptographie asymétrique\n- **C.** Cryptographie par transposition\n- **D.** Stéganographie",
+  "correction": "**Réponse : A, B**\n\nLes VPN utilisent un schéma **hybride** : l'**asymétrique** (RSA/Diffie-Hellman) pour authentifier et échanger les clés (phase ISAKMP), puis le **symétrique** (AES) pour chiffrer les données — rapide sur de gros volumes."
+ },
+ {
+  "id": "rat24-ex2",
+  "topic": "firewall",
+  "topicLabel": "Pare-feu, ACL & IDS",
+  "title": "Exercice — ACL étendue nommée (blacklist)",
+  "source": "exam-rat-24",
+  "prompt": "L'administrateur réseau d'une entreprise a créé les listes de contrôle d'accès suivantes :\n\n```\nip access-list extended ACL\n deny tcp host 172.31.1.101 host 64.101.255.254 eq 80\n deny tcp host 172.31.1.101 host 64.101.255.254 eq 443\n```\n\n1. Expliquez l'utilité de ces commandes.\n2. Quelle est l'utilité de la commande suivante : `deny icmp host 172.31.1.103 host 64.101.255.254` ?\n3. S'agit-il d'une configuration white-list ou black-list ?\n4. Quelle est l'utilité des commandes suivantes ?\n```\ninterface g0/0\n ip access-group ACL in\n```\n5. Quelle est l'utilité de la commande `permit ip any any` et pourquoi est-elle nécessaire dans ce contexte ?",
+  "correction": "**Corrigé :**\n\n1. `ip access-list extended ACL` **crée une ACL étendue nommée « ACL »**. Les deux règles `deny` empêchent l'hôte **172.31.1.101** d'accéder au serveur **64.101.255.254** en **HTTP (port 80)** et en **HTTPS (port 443)**.\n2. Elle interdit à l'hôte **172.31.1.103** d'envoyer des messages **ICMP** (ping) vers **64.101.255.254**.\n3. **Black-list** : on interdit explicitement certains trafics et on autorise tout le reste.\n4. Ces commandes **appliquent l'ACL à l'interface g0/0 en entrée** (`in`) : le trafic entrant est filtré selon les règles de l'ACL.\n5. `permit ip any any` **autorise tout le trafic non bloqué** par les règles précédentes. Sans elle, le **deny implicite** de fin d'ACL bloquerait *tout* le reste du trafic — indispensable dans une logique black-list."
+ },
+ {
+  "id": "rat24-ex3",
+  "topic": "firewall",
+  "topicLabel": "Pare-feu, ACL & IDS",
+  "title": "Exercice — Architecture pare-feu et DMZ (Safeguard)",
+  "source": "exam-rat-24",
+  "prompt": "L'entreprise Safeguard veut sécuriser son réseau : **Serveur Web** (192.168.10.10), **Serveur FTP** (192.168.10.20), **Serveur BD** (192.168.10.30), **Serveur de messagerie** (192.168.10.40), **Routeur** (192.168.10.1). Sous-réseaux : **A** (192.168.10.0/24, serveurs), **B** (192.168.20.0/24, collaborateurs), **C** (192.168.30.0/24, partenaires externes). Le réseau est protégé par un pare-feu.\n\n1. Proposez une architecture avec les zones de sécurité nécessaires (DMZ, réseau interne…) et leurs connexions via le pare-feu.\n2. Quels sont les avantages et inconvénients d'utiliser un pare-feu pour sécuriser ce réseau ?\n3. Le serveur FTP a subi plusieurs tentatives d'accès non autorisées : quelles actions recommander pour le sécuriser ?",
+  "correction": "**Corrigé :**\n\n1. **Zones** : **DMZ** = Serveur Web + Serveur FTP (services accessibles de l'extérieur, isolés du LAN) ; **Réseau interne** = Serveur BD + Serveur de messagerie + collaborateurs (192.168.20.0/24) ; **Réseau partenaires** = 192.168.30.0/24, isolé du réseau interne.\n   **Règles pare-feu** : Internet → DMZ : HTTP/HTTPS (80/443) vers le Web, FTP (20/21) vers le FTP ; DMZ → interne : uniquement le flux Web → BD (ex. 3306), tout le reste bloqué ; interne → Internet : sorties nécessaires (HTTP/HTTPS, SMTP, DNS) ; partenaires → DMZ : FTP uniquement ; interne → DMZ : administration.\n2. **Avantages** : contrôle d'accès strict (règles précises par flux), protection périmétrique (première ligne de défense), isolation des zones (limite la propagation en cas de compromission). **Inconvénients** : complexité de configuration/gestion (une erreur crée une faille), insensibilité aux **menaces internes**, limites face aux attaques sophistiquées (zero-day, APT) → à compléter par IDS/IPS.\n3. **Sécuriser le FTP** : passer à **SFTP ou FTPS** (chiffrement des transferts) ; renforcer l'authentification (**2FA**, moindre privilège) ; **mises à jour et correctifs** réguliers du serveur."
+ },
+ {
+  "id": "rat24-ex4",
+  "topic": "aaa",
+  "topicLabel": "AAA & authentification",
+  "title": "Exercice — Modèle AAA sans équipement Cisco",
+  "source": "exam-rat-24",
+  "prompt": "Soit un réseau de services d'une multinationale sur lequel des clients se connectent pour utiliser des services suivant le **modèle AAA**. Sur ce réseau, il n'y a **aucun équipement Cisco**.\n\n1. Proposez un schéma de ce réseau.\n2. Décrivez les trois composants du modèle AAA utilisé pour cette entreprise.\n3. Quel est le protocole utilisé pour l'authentification ? Justifiez votre réponse.",
+  "correction": "**Corrigé :**\n\n1. Schéma : **Client/User → équipement d'accès (routeur/NAS faisant office de client AAA) → serveur AAA (type ACS/RADIUS)** qui centralise authentification, autorisation et comptabilité.\n2. Les trois composants : l'**utilisateur** qui demande le service ; le **routeur/NAS AAA** qui relaie la demande d'authentification ; le **serveur de contrôle d'accès** (ACS) qui authentifie l'utilisateur, l'autorise sur les services et **comptabilise** l'utilisation.\n3. **RADIUS** : comme le réseau n'utilise aucun équipement Cisco, on choisit le protocole **standard ouvert**, supporté par tous les équipements. (TACACS+ est propriétaire Cisco.)"
+ }
+]
