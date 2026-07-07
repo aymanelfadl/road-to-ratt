@@ -316,6 +316,17 @@ function renderOrder(q, feedback) {
 // ---------- progress strip ----------
 
 function renderProgress() {
+  const txt = document.getElementById("progressText");
+  const fill = document.getElementById("progressFill");
+  if (txt && fill) {
+    const total = DATA.concepts.length;
+    const mastered = DATA.concepts.filter(c => (state.streaks[c.id] || 0) >= MASTERY_STREAK).length;
+    txt.textContent = LANG === "fr"
+      ? `${mastered} / ${total} concepts maîtrisés`
+      : `${mastered} / ${total} concepts mastered`;
+    fill.style.width = total ? (100 * mastered / total) + "%" : "0%";
+  }
+
   const bar = document.getElementById("progress");
   bar.innerHTML = "";
   DATA.concepts.forEach(c => {

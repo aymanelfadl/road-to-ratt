@@ -7,17 +7,28 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22black%22/><text x=%2250%25%22 y=%2258%25%22 font-size=%2244%22 fill=%22white%22 text-anchor=%22middle%22 font-family=%22monospace%22>BD</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header class="topbar">
-  <h1>Big Data Drill</h1>
-  <nav class="topbar-nav">
-    <a class="ghost-btn" href="../">Web Sémantique</a>
-    <button id="lang-btn" class="ghost-btn lang-btn">FR</button>
-  </nav>
+  <div class="brand">
+    <div>
+      <div class="brand-title">Big Data Drill</div>
+      <div class="brand-sub">QCM · Hadoop · HDFS · Hive · HBase</div>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <div class="progress-wrap">
+      <div class="progress-text" id="progressText">0 / 0</div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    </div>
+    <nav class="topbar-nav">
+      <a class="ghost-btn" href="../">Web Sémantique</a>
+      <button id="lang-btn" class="ghost-btn lang-btn">FR</button>
+    </nav>
+  </div>
 </header>
 
 <div id="progress" class="progress" aria-label="Mastery per concept"></div>
