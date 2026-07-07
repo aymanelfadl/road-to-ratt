@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Big Data Drill — infinite QCM loop</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22black%22/><text x=%2250%25%22 y=%2258%25%22 font-size=%2244%22 fill=%22white%22 text-anchor=%22middle%22 font-family=%22monospace%22>BD</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <h1>Big Data Drill</h1>
+  <nav class="topbar-nav">
+    <a class="ghost-btn" href="../">Web Sémantique</a>
+    <button id="lang-btn" class="ghost-btn lang-btn">FR</button>
+  </nav>
+</header>
+
+<div id="progress" class="progress" aria-label="Mastery per concept"></div>
+
+<main id="app" class="app">
+  <div class="loading">Loading questions…</div>
+</main>
+
+<footer class="footer">
+  <button id="reset-btn" class="ghost-btn">Reset my progress</button>
+</footer>
+
+<script>
+window.DRILL_CONFIG = {
+  storageKey: "bigdatadrill_v1",
+  langKey: "bigdatadrill_lang",
+  dataUrl: "data/questions.json"
+};
+</script>
+<script src="app.js"></script>
+</body>
+</html>

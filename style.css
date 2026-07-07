@@ -66,6 +66,8 @@ code, .mono {
   color: var(--dim);
 }
 
+.topbar-right { display: flex; align-items: center; gap: 16px; }
+.subject-link { text-decoration: none; }
 .progress-wrap { display: flex; flex-direction: column; align-items: flex-end; gap: 7px; }
 .progress-text {
   font-family: "JetBrains Mono", monospace;

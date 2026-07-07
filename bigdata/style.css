@@ -1,0 +1,291 @@
+/* DBA2 Drill — monochrome, white on black. Font note: "Mirage" (MADE Mirage) is a
+   paid, non-web-embeddable serif, so Newsreader (a free, similarly elegant serif)
+   is used instead, paired with JetBrains Mono for code/labels. */
+
+:root {
+  --ink: #f2f2f2;
+  --paper: #000;
+  --line: #f2f2f2;
+  --dim: #999;
+  --dim-line: #444;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+body {
+  font-family: "Newsreader", Georgia, serif;
+  font-size: 19px;
+  line-height: 1.5;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 32px 20px 60px 20px;
+}
+
+code, .mono {
+  font-family: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+
+/* ---------- header ---------- */
+
+.topbar {
+  border-bottom: 2px solid var(--line);
+  padding-bottom: 16px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.topbar h1 {
+  font-size: 31px;
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: 0.3px;
+}
+
+.lang-btn {
+  min-width: 46px;
+}
+
+.topbar-nav {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+a.ghost-btn {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* ---------- progress strip ---------- */
+
+.progress {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 28px;
+}
+
+.progress .dot {
+  width: 17px;
+  height: 17px;
+  border: 1.5px solid var(--line);
+  cursor: default;
+  position: relative;
+}
+
+.progress .dot[data-level="0"] { background: var(--paper); }
+.progress .dot[data-level="1"] { background: repeating-linear-gradient(45deg, var(--ink), var(--ink) 2px, transparent 2px, transparent 5px); }
+.progress .dot[data-level="2"] { background: var(--ink); }
+
+.progress .dot:hover::after {
+  content: attr(title);
+  position: absolute;
+  bottom: 130%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--ink);
+  color: var(--paper);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  padding: 4px 7px;
+  white-space: nowrap;
+  z-index: 5;
+}
+
+/* ---------- question card ---------- */
+
+.app { min-height: 320px; }
+
+.loading { color: var(--dim); font-family: "JetBrains Mono", monospace; font-size: 14px; }
+
+.qcard {
+  border: 2px solid var(--line);
+  padding: 22px 22px 20px 22px;
+}
+
+.qmeta {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--dim);
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.qmeta .streak-flame { color: var(--ink); }
+
+.qprompt {
+  font-size: 21px;
+  line-height: 1.45;
+  margin: 0 0 18px 0;
+}
+
+.qprompt code {
+  background: #1c1c1c;
+  padding: 1px 5px;
+  font-size: 17px;
+}
+
+.qhint {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--dim);
+  margin: -8px 0 12px 0;
+}
+
+/* option list (single / multi) */
+
+.options { list-style: none; margin: 0; padding: 0; }
+
+.opt-btn {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font-family: "Newsreader", Georgia, serif;
+  font-size: 18px;
+  background: var(--paper);
+  color: var(--ink);
+  border: 1.5px solid var(--line);
+  padding: 11px 15px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: background 0.1s ease;
+}
+
+.opt-btn:hover { background: #1c1c1c; }
+
+.opt-btn.selected {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.opt-btn.locked-correct {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.opt-btn.locked-wrong {
+  text-decoration: line-through;
+  color: var(--dim);
+  border-style: dashed;
+}
+
+.opt-btn:disabled { cursor: default; }
+
+.opt-check {
+  display: inline-block;
+  width: 14px;
+}
+
+/* ordering UI */
+
+.order-your-seq {
+  min-height: 46px;
+  border: 1.5px dashed var(--dim-line);
+  padding: 8px 10px;
+  margin-bottom: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.order-your-seq .placeholder {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 13px;
+  color: var(--dim);
+}
+
+.order-chip {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 13.5px;
+  border: 1.5px solid var(--line);
+  background: var(--ink);
+  color: var(--paper);
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+.order-pool { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+
+/* action row */
+
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.primary-btn, .ghost-btn {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 13.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 11px 19px;
+  border: 1.5px solid var(--line);
+  cursor: pointer;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.primary-btn {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.primary-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.ghost-btn:hover { background: #1c1c1c; }
+.primary-btn:not(:disabled):hover { background: #ccc; }
+
+/* feedback */
+
+.feedback {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1.5px solid var(--line);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 14px;
+  display: none;
+}
+
+.feedback.show { display: block; }
+
+.feedback .verdict {
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.feedback .verdict.ok::before { content: "[ CORRECT ]"; }
+.feedback .verdict.no::before { content: "[ NOT QUITE ]"; }
+
+/* footer */
+
+.footer {
+  margin-top: 40px;
+  border-top: 1px solid var(--dim-line);
+  padding-top: 16px;
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  body { font-size: 18px; padding: 20px 14px 50px 14px; }
+  .qprompt { font-size: 19px; }
+}
