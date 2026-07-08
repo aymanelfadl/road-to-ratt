@@ -3,6 +3,9 @@
 
   const STORAGE_KEY = "ws-exos-progress-v1";
 
+  // Un retour à la ligne dans le Markdown = un vrai <br> (listes de choix "1. … 2. …").
+  window.marked.setOptions({ breaks: true });
+
   const state = {
     all: [],
     queue: [],
