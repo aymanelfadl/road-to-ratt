@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Web Sémantique — Entraînement par questions</title>
+<title>Web Sémantique — Exercices &amp; pièges</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22black%22/><text x=%2250%25%22 y=%2258%25%22 font-size=%2244%22 fill=%22white%22 text-anchor=%22middle%22 font-family=%22monospace%22>WS</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=5">
+<link rel="stylesheet" href="style.css?v=6">
 </head>
 <body>
 
@@ -16,7 +16,7 @@
   <div class="brand">
     <div>
       <div class="brand-title">Web Sémantique</div>
-      <div class="brand-sub">Master · questions &amp; corrections</div>
+      <div class="brand-sub">Master · exercices &amp; pièges</div>
     </div>
   </div>
   <div class="topbar-right">
@@ -36,17 +36,9 @@
       <div id="topicList" class="filter-list"></div>
     </div>
     <div class="sidebar-section">
-      <h3>Source</h3>
-      <div class="filter-list">
-        <label><input type="checkbox" value="exam-2020" class="src-filter" checked> Examen réel 2020</label>
-        <label><input type="checkbox" value="exam-2025" class="src-filter" checked> Examen réel 2025</label>
-        <label><input type="checkbox" value="original" class="src-filter" checked> Exercice inédit</label>
-      </div>
-    </div>
-    <div class="sidebar-section">
       <label class="toggle-row">
         <input type="checkbox" id="hideMastered">
-        Masquer les questions déjà maîtrisées
+        Masquer les exercices déjà maîtrisés
       </label>
       <label class="toggle-row">
         <input type="checkbox" id="shuffleMode">
@@ -60,18 +52,25 @@
 
   <main class="main">
     <div id="emptyState" class="empty-state" hidden>
-      <p>Aucune question ne correspond aux filtres sélectionnés.</p>
+      <p>Aucun exercice ne correspond aux filtres sélectionnés.</p>
     </div>
 
     <div id="card" class="card">
       <div class="card-head">
         <span class="badge badge-topic" id="qTopic"></span>
-        <span class="badge badge-source" id="qSource"></span>
+        <span class="badge badge-level" id="qLevel"></span>
+        <span class="badge badge-type" id="qType"></span>
         <span class="card-index" id="qIndex"></span>
       </div>
       <h2 class="card-title" id="qTitle"></h2>
 
       <div class="prose" id="qPrompt"></div>
+
+      <div class="answer-block">
+        <label class="answer-label" for="answerBox">Ta réponse — résous avant de révéler</label>
+        <textarea id="answerBox" rows="6" spellcheck="false"
+          placeholder="Écris ta solution ici (elle reste affichée à côté du corrigé)…"></textarea>
+      </div>
 
       <div id="correctionBlock" hidden>
         <hr class="sep">
@@ -96,10 +95,10 @@
 </div>
 
 <footer class="footer">
-  Contenu extrait de la fiche de révision Web Sémantique.
+  Exercices à pièges construits sur le cours et les examens 2020/2025 — résoudre, révéler, comprendre le piège.
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-<script src="app.js?v=5"></script>
+<script src="app.js?v=6"></script>
 </body>
 </html>

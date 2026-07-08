@@ -1,7 +1,7 @@
 (function () {
   "use strict";
 
-  const STORAGE_KEY = "ws-quiz-progress-v1";
+  const STORAGE_KEY = "ws-exos-progress-v1";
 
   const state = {
     all: [],
@@ -42,7 +42,7 @@
       cb.checked = true;
       cb.className = "topic-filter";
       cb.value = t;
-      cb.addEventListener("change", rebuildQueue);
+      cb.addEventListener("change", () => rebuildQueue(false));
       label.appendChild(cb);
       label.appendChild(document.createTextNode(" " + labels[t]));
       list.appendChild(label);
@@ -52,10 +52,6 @@
   function activeTopics() {
     return Array.from(document.querySelectorAll(".topic-filter:checked")).map((c) => c.value);
   }
-  function activeSources() {
-    return Array.from(document.querySelectorAll(".src-filter:checked")).map((c) => c.value);
-  }
-
   function shuffle(arr) {
     const a = arr.slice();
     for (let i = a.length - 1; i > 0; i--) {
@@ -67,12 +63,10 @@
 
   function rebuildQueue(keepPosition) {
     const topics = new Set(activeTopics());
-    const sources = new Set(activeSources());
     const hideMastered = el("hideMastered").checked;
 
     let filtered = state.all.filter((q) => {
       if (!topics.has(q.topic)) return false;
-      if (!sources.has(q.source)) return false;
       if (hideMastered && state.progress[q.id] === "mastered") return false;
       return true;
     });
@@ -108,16 +102,17 @@
 
     const q = state.queue[state.pos];
     el("qTopic").textContent = q.topicLabel;
-    const srcLabel = { "exam-2020": "Examen réel 2020", "exam-2025": "Examen réel 2025", "original": "Exercice inédit" }[q.source] || q.source;
-    const srcEl = el("qSource");
-    srcEl.textContent = srcLabel;
-    srcEl.dataset.src = q.source;
+    const levelEl = el("qLevel");
+    levelEl.textContent = { "warm-up": "Warm-up", "medium": "Medium", "hard": "Hard" }[q.level] || q.level;
+    levelEl.dataset.level = q.level;
+    el("qType").textContent = q.type === "write" ? "à écrire" : "à prédire";
     el("qIndex").textContent = (state.pos + 1) + " / " + state.queue.length;
     el("qTitle").textContent = q.title;
     el("qPrompt").innerHTML = window.marked.parse(q.prompt || "");
     el("qCorrection").innerHTML = window.marked.parse(q.correction || "");
 
     state.revealed = false;
+    el("answerBox").value = "";
     el("correctionBlock").hidden = true;
     el("revealBtn").hidden = false;
     el("gradeButtons").hidden = true;
@@ -169,7 +164,7 @@
       }
     });
     document.addEventListener("keydown", (e) => {
-      if (e.target.tagName === "INPUT") return;
+      if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
       if (e.code === "Space") { e.preventDefault(); if (!state.revealed) el("revealBtn").click(); }
       if (e.key === "1") { if (state.revealed) el("reviewBtn").click(); }
       if (e.key === "2") { if (state.revealed) el("masteredBtn").click(); }
@@ -178,7 +173,7 @@
     });
   }
 
-  fetch("data/questions.json")
+  fetch("data/exercises.json")
     .then((r) => r.json())
     .then((data) => {
       state.all = data;

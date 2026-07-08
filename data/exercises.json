@@ -1,0 +1,412 @@
+[
+ {
+  "id": "dtd-1",
+  "topic": "dtd",
+  "topicLabel": "XML & DTD",
+  "level": "warm-up",
+  "type": "predict",
+  "title": "Bien formé ou pas ?",
+  "prompt": "Pour chacun de ces documents, dis s'il est **bien formé** ou non (et pourquoi) :\n\n**1.**\n```xml\n<liste><item>A</item><item>B</item></liste>\n```\n**2.**\n```xml\n<Liste><item>A</item></liste>\n```\n**3.**\n```xml\n<liste><item>A & B</item></liste>\n```\n**4.**\n```xml\n<liste type=grand><item>A</item></liste>\n```\n**5.**\n```xml\n<?xml version=\"1.0\"?>\n<a>1</a>\n<b>2</b>\n```",
+  "correction": "**Résultat : seul le 1 est bien formé.**\n\n- **2 ✘** — `<Liste>` ≠ `</liste>` : XML est **sensible à la casse**.\n- **3 ✘** — `&` nu est interdit dans le texte : il faut `&amp;` (de même `<` → `&lt;`).\n- **4 ✘** — toute valeur d'attribut doit être **entre guillemets** : `type=\"grand\"`.\n- **5 ✘** — **une seule racine** par document.\n\n**Le piège :** à l'examen on confond *bien formé* (règles de syntaxe XML, aucune DTD nécessaire) et *valide* (conforme à une DTD/un schéma). Un document peut être bien formé et invalide — jamais l'inverse.\n\n**Règle à retenir :** bien formé = syntaxe (casse, guillemets, fermeture, racine unique, `&amp;`/`&lt;`). Valide = bien formé **+** conforme à la grammaire."
+ },
+ {
+  "id": "dtd-2",
+  "topic": "dtd",
+  "topicLabel": "XML & DTD",
+  "level": "medium",
+  "type": "predict",
+  "title": "Lire un modèle de contenu",
+  "prompt": "Avec cette DTD :\n```dtd\n<!ELEMENT cv (nom, (tel | email)+, note?)>\n```\nquels documents sont **valides** ?\n\n**1.** `<cv><nom/><tel/><email/><note/></cv>`\n**2.** `<cv><nom/><note/></cv>`\n**3.** `<cv><nom/><email/><tel/></cv>`\n**4.** `<cv><nom/><tel/><note/><email/></cv>`",
+  "correction": "**Résultat : 1 ✔ · 2 ✘ · 3 ✔ · 4 ✘**\n\n- **1 ✔** — `(tel | email)+` accepte n'importe quelle suite d'au moins un `tel` **ou** `email` : `tel` puis `email` convient.\n- **2 ✘** — le `+` porte sur **le groupe** : il faut au moins un `tel` ou un `email`.\n- **3 ✔** — l'ordre à l'intérieur du groupe répété est libre (chaque occurrence choisit `tel` ou `email`).\n- **4 ✘** — `note?` est **après** le groupe dans la séquence : rien ne peut suivre `note`.\n\n**Le piège :** les quantificateurs (`+`, `*`, `?`) portent sur ce qui les précède immédiatement — élément **ou groupe parenthésé**. `(tel | email)+` ≠ `tel+ | email+` : la première forme autorise le mélange, la seconde non.\n\n**Règle à retenir :** lis un modèle de contenu comme une expression régulière : `,` = ordre imposé, `|` = choix, et le quantificateur s'applique au groupe entier."
+ },
+ {
+  "id": "dtd-3",
+  "topic": "dtd",
+  "topicLabel": "XML & DTD",
+  "level": "medium",
+  "type": "write",
+  "title": "Contenu mixte — texte et balises mélangés",
+  "prompt": "Écris la déclaration DTD d'un élément `para` qui contient du **texte librement mélangé** avec des éléments `important` et `ref` (eux-mêmes textuels), comme :\n\n```xml\n<para>Voir la <ref>section 2</ref> — c'est <important>obligatoire</important> avant l'examen.</para>\n```\n\nQuestion bonus : peut-on imposer **au plus un** `ref` par paragraphe ?",
+  "correction": "**Corrigé :**\n```dtd\n<!ELEMENT para (#PCDATA | important | ref)*>\n<!ELEMENT important (#PCDATA)>\n<!ELEMENT ref (#PCDATA)>\n```\n\n**Le piège :** le contenu mixte a une syntaxe **imposée et unique** :\n- `#PCDATA` doit être **en premier** ;\n- seul l'opérateur `|` est permis ;\n- le groupe doit se terminer par `*` — pas de `+`, pas de `?`, pas de `,`.\n\n`(important | #PCDATA)*` ou `(#PCDATA, ref*)` sont **rejetés** par le parseur.\n\n**Bonus : non.** En contenu mixte, une DTD ne peut **ni imposer un ordre ni limiter le nombre** d'occurrences. Pour ça il faudrait un schéma plus puissant (et même XSD ne le permet pas en mixte, seul Relax NG le peut).\n\n**Checklist :**\n- ✔ `#PCDATA` en tête du groupe\n- ✔ uniquement des `|`\n- ✔ `*` à la fin, collé à la parenthèse\n- ✔ réponse bonus : impossible en DTD"
+ },
+ {
+  "id": "dtd-4",
+  "topic": "dtd",
+  "topicLabel": "XML & DTD",
+  "level": "medium",
+  "type": "predict",
+  "title": "#REQUIRED, #IMPLIED, #FIXED, valeur par défaut",
+  "prompt": "Avec cette DTD :\n```dtd\n<!ELEMENT doc EMPTY>\n<!ATTLIST doc\n    version CDATA #FIXED \"1.0\"\n    lang    CDATA \"fr\"\n    id      CDATA #REQUIRED\n    note    CDATA #IMPLIED>\n```\nquels documents sont **valides** ? Et quelle est la valeur de `lang` dans le 1 ?\n\n**1.** `<doc id=\"d1\"/>`\n**2.** `<doc id=\"d1\" version=\"2.0\"/>`\n**3.** `<doc lang=\"en\" note=\"brouillon\"/>`\n**4.** `<doc id=\"d2\" version=\"1.0\" lang=\"en\"/>`",
+  "correction": "**Résultat : 1 ✔ · 2 ✘ · 3 ✘ · 4 ✔**\n\n- **1 ✔** — `version` et `lang` absents : le parseur leur **injecte** `1.0` et `fr`. Donc `lang` vaut `\"fr\"` même si rien n'est écrit.\n- **2 ✘** — `#FIXED \"1.0\"` : l'attribut peut être omis, mais s'il est présent il doit valoir **exactement** `1.0`.\n- **3 ✘** — `id` est `#REQUIRED` : il manque.\n- **4 ✔** — `version=\"1.0\"` respecte le `#FIXED`, `lang` peut être remplacé (une valeur par défaut n'est pas figée).\n\n**Le piège :** `#FIXED` ≠ valeur par défaut. Les deux injectent une valeur si l'attribut est absent, mais `#FIXED` **interdit toute autre valeur**, alors que `\"fr\"` (défaut simple) reste modifiable.\n\n**Règle à retenir :** `#REQUIRED` = obligatoire · `#IMPLIED` = optionnel sans défaut · `\"val\"` = optionnel avec défaut modifiable · `#FIXED \"val\"` = optionnel mais verrouillé."
+ },
+ {
+  "id": "dtd-5",
+  "topic": "dtd",
+  "topicLabel": "XML & DTD",
+  "level": "hard",
+  "type": "predict",
+  "title": "Le type ID n'accepte pas n'importe quoi",
+  "prompt": "Avec cette DTD :\n```dtd\n<!ELEMENT bib (livre+)>\n<!ELEMENT livre EMPTY>\n<!ATTLIST livre code ID #REQUIRED\n                voir IDREF #IMPLIED>\n```\nquels documents sont **valides** ?\n\n**1.** `<bib><livre code=\"a12\"/><livre code=\"b7\"/></bib>`\n**2.** `<bib><livre code=\"123\"/></bib>`\n**3.** `<bib><livre code=\"a1\"/><livre code=\"a1\"/></bib>`\n**4.** `<bib><livre code=\"a1\" voir=\"zz9\"/></bib>`",
+  "correction": "**Résultat : seul le 1 est valide.**\n\n- **2 ✘** — une valeur de type `ID` doit être un **nom XML** : elle ne peut pas commencer par un chiffre. `code=\"123\"` est rejeté — piège très fréquent avec les codes numériques (ISBN, CNE…).\n- **3 ✘** — un `ID` doit être **unique dans tout le document** (tous éléments confondus).\n- **4 ✘** — un `IDREF` doit **pointer vers un ID existant** : aucun élément n'a `code=\"zz9\"`.\n\n**Le piège :** on croit que `ID` = « identifiant » au sens base de données. En XML c'est plus strict : nom XML syntaxiquement (pas de chiffre initial, pas d'espace) + unicité globale. Si l'énoncé impose un identifiant **numérique**, `ID` est impossible → il faut `CDATA` (et on perd le contrôle d'unicité) — à justifier sur la copie.\n\n**Règle à retenir :** `ID` = nom XML unique dans le document ; `IDREF` = doit référencer un `ID` existant ; `IDREFS` = liste de références séparées par des espaces."
+ },
+ {
+  "id": "dtd-6",
+  "topic": "dtd",
+  "topicLabel": "XML & DTD",
+  "level": "hard",
+  "type": "write",
+  "title": "DTD complète — annuaire avec références",
+  "prompt": "Écris la DTD complète pour : un `annuaire` contient une ou plusieurs `personne`. Chaque `personne` a un **identifiant unique obligatoire** `pid`, un attribut `statut` valant `actif` ou `inactif` (**`actif` si absent**), et contient un `nom` (texte) puis zéro ou plusieurs éléments `ami`, **vides**, portant chacun une référence obligatoire `vers` une autre personne.\n\n```xml\n<annuaire>\n  <personne pid=\"p1\"><nom>Ali</nom><ami vers=\"p2\"/></personne>\n  <personne pid=\"p2\" statut=\"inactif\"><nom>Sara</nom></personne>\n</annuaire>\n```",
+  "correction": "**Corrigé :**\n```dtd\n<!ELEMENT annuaire (personne+)>\n<!ELEMENT personne (nom, ami*)>\n<!ELEMENT nom (#PCDATA)>\n<!ELEMENT ami EMPTY>\n\n<!ATTLIST personne\n    pid    ID              #REQUIRED\n    statut (actif|inactif) \"actif\">\n<!ATTLIST ami\n    vers   IDREF           #REQUIRED>\n```\n\n**Les pièges :**\n- « `actif` si absent » = **valeur par défaut** `\"actif\"` — pas `#REQUIRED`, pas `#IMPLIED`. Écrire `#REQUIRED \"actif\"` est une erreur de syntaxe.\n- `ami` est vide → `EMPTY`, pas `(#PCDATA)` — un élément `EMPTY` ne peut **rien** contenir, même pas du texte vide.\n- « référence vers une autre personne » → `IDREF`, pas `CDATA` : c'est ce qui garantit que la cible existe.\n\n**Checklist :**\n- ✔ `personne+` (une ou plusieurs) et `ami*` (zéro ou plusieurs)\n- ✔ `pid` en `ID #REQUIRED`\n- ✔ énumération `(actif|inactif)` avec défaut `\"actif\"` sans mot-clé `#`\n- ✔ `ami EMPTY` + `vers IDREF #REQUIRED`"
+ },
+ {
+  "id": "xsd-1",
+  "topic": "xsd",
+  "topicLabel": "XML Schema",
+  "level": "warm-up",
+  "type": "predict",
+  "title": "minOccurs / maxOccurs par défaut",
+  "prompt": "Avec ce schéma :\n```xml\n<xs:element name=\"livre\">\n  <xs:complexType>\n    <xs:sequence>\n      <xs:element name=\"titre\" type=\"xs:string\"/>\n      <xs:element name=\"auteur\" type=\"xs:string\" maxOccurs=\"unbounded\"/>\n      <xs:element name=\"resume\" type=\"xs:string\" minOccurs=\"0\"/>\n    </xs:sequence>\n  </xs:complexType>\n</xs:element>\n```\nquels documents sont **valides** ?\n\n**1.** `<livre><titre>X</titre><auteur>A</auteur></livre>`\n**2.** `<livre><auteur>A</auteur></livre>`\n**3.** `<livre><titre>X</titre><titre>Y</titre><auteur>A</auteur></livre>`\n**4.** `<livre><titre>X</titre><auteur>A</auteur><auteur>B</auteur><resume>…</resume></livre>`",
+  "correction": "**Résultat : 1 ✔ · 2 ✘ · 3 ✘ · 4 ✔**\n\n- **2 ✘** — `titre` n'a pas de `minOccurs` : la valeur **par défaut est 1** → obligatoire.\n- **3 ✘** — `titre` n'a pas non plus de `maxOccurs` : défaut **1** → pas de doublon.\n- **4 ✔** — `auteur` répétable (`maxOccurs=\"unbounded\"`), `resume` optionnel (`minOccurs=\"0\"`).\n\n**Le piège :** croire qu'un élément sans `minOccurs`/`maxOccurs` est « libre ». C'est l'inverse : **défaut = exactement une fois**. Optionnel doit être demandé explicitement (`minOccurs=\"0\"`), répétable aussi (`maxOccurs=\"unbounded\"`).\n\n**Règle à retenir :** DTD → XSD : `?` = `minOccurs=\"0\"` · `*` = `minOccurs=\"0\" maxOccurs=\"unbounded\"` · `+` = `maxOccurs=\"unbounded\"` · rien = rien (1,1)."
+ },
+ {
+  "id": "xsd-2",
+  "topic": "xsd",
+  "topicLabel": "XML Schema",
+  "level": "medium",
+  "type": "write",
+  "title": "Texte + attribut = simpleContent",
+  "prompt": "Écris le type XSD de l'élément :\n\n```xml\n<prix devise=\"MAD\">120.50</prix>\n```\n\nLe contenu doit être un décimal, l'attribut `devise` une chaîne obligatoire.",
+  "correction": "**Corrigé :**\n```xml\n<xs:element name=\"prix\">\n  <xs:complexType>\n    <xs:simpleContent>\n      <xs:extension base=\"xs:decimal\">\n        <xs:attribute name=\"devise\" type=\"xs:string\" use=\"required\"/>\n      </xs:extension>\n    </xs:simpleContent>\n  </xs:complexType>\n</xs:element>\n```\n\n**Le piège :** un élément **avec attribut** est forcément un `complexType` — même si son contenu est du simple texte. Les deux réponses naïves échouent :\n- `<xs:element name=\"prix\" type=\"xs:decimal\"/>` → impossible d'y attacher un attribut ;\n- `complexType` + `sequence` → déclare des éléments enfants, pas du texte.\n\nLa bonne construction est le trio **`complexType` → `simpleContent` → `extension base=\"…\"`**, et l'attribut se déclare dans l'extension.\n\n**Checklist :**\n- ✔ `complexType` (pas un simpleType)\n- ✔ `simpleContent` + `extension base=\"xs:decimal\"`\n- ✔ attribut déclaré **dans** l'extension, avec `use=\"required\"`\n- ✔ pas de `xs:sequence` nulle part"
+ },
+ {
+  "id": "xsd-3",
+  "topic": "xsd",
+  "topicLabel": "XML Schema",
+  "level": "medium",
+  "type": "write",
+  "title": "Attribut « unique dans le document »",
+  "prompt": "Extrait d'énoncé (style examen) : *« chaque `etudiant` porte un attribut `cne` obligatoire, **unique dans tout le document**, de la forme d'un nom XML (ex. `E1234`) »*.\n\nÉcris la déclaration de cet attribut. Quel **type** choisis-tu, et pourquoi pas `xs:string` avec un `xs:pattern` ?",
+  "correction": "**Corrigé :**\n```xml\n<xs:attribute name=\"cne\" type=\"xs:ID\" use=\"required\"/>\n```\n\n**Le piège :** dès que l'énoncé dit « unique dans le document », la réponse attendue est **`xs:ID`** — c'est le seul type qui fait vérifier l'unicité par le validateur. Un `xs:string` + `xs:pattern` contrôle le **format** mais laisse passer deux étudiants avec le même CNE.\n\n**Attention (piège dans le piège) :** comme en DTD, une valeur `xs:ID` doit être un nom XML — **pas de chiffre en premier caractère**. Si l'énoncé impose un code purement numérique, `xs:ID` est impossible : il faut alors `xs:key`/`xs:unique` (contrainte d'identité déclarée sur l'élément englobant), et le dire sur la copie.\n\n**Règle à retenir :** format → `pattern` · unicité → `xs:ID` (ou `xs:key` si la valeur n'est pas un nom XML) · référence → `xs:IDREF` / `xs:keyref`."
+ },
+ {
+  "id": "xsd-4",
+  "topic": "xsd",
+  "topicLabel": "XML Schema",
+  "level": "medium",
+  "type": "write",
+  "title": "simpleType par restriction — facettes",
+  "prompt": "Écris un type nommé `noteType` pour une note d'examen : un décimal **entre 0 et 20 inclus**, avec **au plus 2 décimales**. Puis un type `mentionType` n'acceptant que `passable`, `AB`, `bien`, `TB`.",
+  "correction": "**Corrigé :**\n```xml\n<xs:simpleType name=\"noteType\">\n  <xs:restriction base=\"xs:decimal\">\n    <xs:minInclusive value=\"0\"/>\n    <xs:maxInclusive value=\"20\"/>\n    <xs:fractionDigits value=\"2\"/>\n  </xs:restriction>\n</xs:simpleType>\n\n<xs:simpleType name=\"mentionType\">\n  <xs:restriction base=\"xs:string\">\n    <xs:enumeration value=\"passable\"/>\n    <xs:enumeration value=\"AB\"/>\n    <xs:enumeration value=\"bien\"/>\n    <xs:enumeration value=\"TB\"/>\n  </xs:restriction>\n</xs:simpleType>\n```\n\n**Les pièges :**\n- « inclus » → `minInclusive`/`maxInclusive` ; si l'énoncé disait « strictement », ce serait `minExclusive`/`maxExclusive` — lis bien.\n- une énumération = **plusieurs** `xs:enumeration`, une par valeur — pas `value=\"passable|AB|…\"` (ça, c'est la syntaxe DTD !).\n- base `xs:decimal`, pas `xs:integer` (une note peut être 12.5) ni `xs:float` (on veut des facettes de décimales exactes).\n\n**Checklist :**\n- ✔ `restriction base=\"xs:decimal\"`\n- ✔ `minInclusive 0` / `maxInclusive 20`\n- ✔ `fractionDigits 2`\n- ✔ une balise `enumeration` par mention"
+ },
+ {
+  "id": "xsd-5",
+  "topic": "xsd",
+  "topicLabel": "XML Schema",
+  "level": "hard",
+  "type": "write",
+  "title": "Le document qui casse le schéma naïf",
+  "prompt": "Écris un schéma XSD qui valide **ce document exact** :\n\n```xml\n<fiche>\n  <note>Voir <ref id=\"r2\"/> avant le <date>2026-06-01</date>.</note>\n  <note>RAS</note>\n</fiche>\n```\n\nRegarde bien la structure des deux `note` avant d'écrire.",
+  "correction": "**Corrigé :**\n```xml\n<xs:element name=\"fiche\">\n  <xs:complexType>\n    <xs:sequence>\n      <xs:element name=\"note\" maxOccurs=\"unbounded\">\n        <xs:complexType mixed=\"true\">\n          <xs:sequence>\n            <xs:element name=\"ref\" minOccurs=\"0\">\n              <xs:complexType>\n                <xs:attribute name=\"id\" type=\"xs:string\" use=\"required\"/>\n              </xs:complexType>\n            </xs:element>\n            <xs:element name=\"date\" type=\"xs:date\" minOccurs=\"0\"/>\n          </xs:sequence>\n        </xs:complexType>\n      </xs:element>\n    </xs:sequence>\n  </xs:complexType>\n</xs:element>\n```\n\n**Les trois pièges cachés dans le document :**\n1. `note` mélange **texte et éléments** → il faut `mixed=\"true\"` sur son `complexType`. Le schéma naïf à `sequence` seule rejette « Voir … avant le … ».\n2. La seconde `note` n'a **aucun enfant** → `ref` et `date` doivent être `minOccurs=\"0\"`.\n3. `ref` est **vide avec un attribut** → `complexType` sans contenu, juste l'attribut. Pas de `xs:string`.\n\n**Règle à retenir :** avant d'écrire un XSD à partir d'un document, inventorie : texte mélangé ? occurrences variables d'un élément à l'autre ? éléments vides à attributs ? Ce sont les trois pièges standards du « XML → XSD »."
+ },
+ {
+  "id": "xsd-6",
+  "topic": "xsd",
+  "topicLabel": "XML Schema",
+  "level": "hard",
+  "type": "predict",
+  "title": "xs:all — ordre libre, mais pas magique",
+  "prompt": "Je veux valider un `contact` contenant `nom`, `tel`, `email` **dans n'importe quel ordre**, avec `tel` **répétable**. Un camarade propose :\n\n```xml\n<xs:complexType>\n  <xs:all>\n    <xs:element name=\"nom\" type=\"xs:string\"/>\n    <xs:element name=\"tel\" type=\"xs:string\" maxOccurs=\"unbounded\"/>\n    <xs:element name=\"email\" type=\"xs:string\"/>\n  </xs:all>\n</xs:complexType>\n```\n\nCe schéma est-il légal en XSD 1.0 ? Si non, pourquoi, et que proposes-tu ?",
+  "correction": "**Résultat : non, illégal en XSD 1.0.**\n\nDans `xs:all` (version 1.0), chaque élément ne peut avoir que `minOccurs`/`maxOccurs` valant **0 ou 1**. `maxOccurs=\"unbounded\"` y est interdit. Autres restrictions classiques : `xs:all` doit être au niveau supérieur du type (pas imbriqué dans un `sequence`/`choice`) et ne contient que des éléments simples, pas de groupes.\n\n**Solutions à proposer :**\n- si l'ordre libre n'est pas vraiment exigé → `xs:sequence` avec `tel maxOccurs=\"unbounded\"` (le plus simple, à justifier) ;\n- si l'ordre libre est exigé → contournement `xs:choice maxOccurs=\"unbounded\"` :\n```xml\n<xs:choice maxOccurs=\"unbounded\">\n  <xs:element name=\"nom\" type=\"xs:string\"/>\n  <xs:element name=\"tel\" type=\"xs:string\"/>\n  <xs:element name=\"email\" type=\"xs:string\"/>\n</xs:choice>\n```\n(mais on perd le contrôle « exactement un `nom` ») — en XSD 1.1, `xs:all` accepte `maxOccurs=\"unbounded\"` et le problème disparaît.\n\n**Règle à retenir :** `xs:all` 1.0 = ordre libre **mais** occurrences 0/1 seulement. Dès qu'un énoncé combine « ordre quelconque » et « répétable », c'est ce piège qu'on teste."
+ },
+ {
+  "id": "xpath-1",
+  "topic": "xpath",
+  "topicLabel": "XPath",
+  "level": "warm-up",
+  "type": "predict",
+  "title": "Sélectionner l'élément ou son attribut ?",
+  "prompt": "Document :\n```xml\n<bib>\n  <livre dispo=\"oui\"><titre>XML</titre></livre>\n  <livre><titre>XSLT</titre></livre>\n  <livre dispo=\"non\"><titre>RDF</titre></livre>\n</bib>\n```\nQue retournent :\n\n**1.** `//livre[@dispo]`\n**2.** `//livre/@dispo`\n**3.** `//livre[@dispo]/titre`",
+  "correction": "**Résultat :**\n1. les **2 éléments** `livre` qui possèdent un attribut `dispo` (XML et RDF) ;\n2. les **2 attributs** eux-mêmes : `dispo=\"oui\"`, `dispo=\"non\"` ;\n3. les titres `XML` et `RDF`.\n\n**Le piège :** `[@dispo]` entre crochets est un **test d'existence** (filtre les éléments), alors que `/@dispo` est un **pas de localisation** (descend vers l'attribut). Confondre les deux fait rendre des attributs quand on voulait des éléments, ou l'inverse.\n\n**Règle à retenir :** crochets = *qui je garde* ; pas (`/`) = *où je vais*. Un prédicat ne change jamais le type de ce qu'on retourne."
+ },
+ {
+  "id": "xpath-2",
+  "topic": "xpath",
+  "topicLabel": "XPath",
+  "level": "medium",
+  "type": "predict",
+  "title": "Le piège du [1]",
+  "prompt": "Document :\n```xml\n<bib>\n  <rayon nom=\"info\">\n    <livre><titre>XML</titre></livre>\n    <livre><titre>XSLT</titre></livre>\n  </rayon>\n  <rayon nom=\"bd\">\n    <livre><titre>Tintin</titre></livre>\n  </rayon>\n</bib>\n```\nQue retourne `//livre[1]/titre` ? Et comment obtenir **le premier livre du document** ?",
+  "correction": "**Résultat : `XML` et `Tintin` — deux titres, pas un.**\n\n**Le piège :** `[1]` se lie plus fort que `//`. L'expression signifie « le premier `livre` **de chaque parent** » : chaque `rayon` a son propre premier livre.\n\n**Le premier du document :** `(//livre)[1]/titre` — les parenthèses matérialisent d'abord la séquence complète, puis on y prend la position 1.\n\n**Règle à retenir :** dès que tu vois `//x[n]` à l'examen, demande-toi : « n-ième **par parent** ou n-ième **global** ? ». Même piège avec `//livre[last()]`."
+ },
+ {
+  "id": "xpath-3",
+  "topic": "xpath",
+  "topicLabel": "XPath",
+  "level": "medium",
+  "type": "predict",
+  "title": "!= n'est pas le contraire de =",
+  "prompt": "Document :\n```xml\n<bib>\n  <livre dispo=\"oui\"><titre>A</titre></livre>\n  <livre dispo=\"non\"><titre>B</titre></livre>\n  <livre><titre>C</titre></livre>\n</bib>\n```\nCombien de livres retournent :\n\n**1.** `//livre[@dispo != 'oui']`\n**2.** `//livre[not(@dispo = 'oui')]`",
+  "correction": "**Résultat : 1 → un seul livre (B) · 2 → deux livres (B et C).**\n\n**Le piège :** le livre C n'a **pas** d'attribut `dispo`. Or `@dispo != 'oui'` compare une **séquence vide** à `'oui'` : toute comparaison avec la séquence vide vaut `false`. C est donc exclu par `!=`, mais inclus par `not(... = ...)` puisque `false` nié donne `true`.\n\n**Règle à retenir :** pour dire « n'a pas la valeur v » en couvrant l'absence, écris **`not(@a = 'v')`**. `@a != 'v'` signifie « a un attribut, et il diffère de v ». À l'examen, cherche toujours l'élément à qui il manque l'attribut."
+ },
+ {
+  "id": "xpath-4",
+  "topic": "xpath",
+  "topicLabel": "XPath",
+  "level": "hard",
+  "type": "predict",
+  "title": "= est existentiel sur les séquences",
+  "prompt": "Document :\n```xml\n<bib>\n  <livre><auteur>Zola</auteur><auteur>Hugo</auteur></livre>\n  <livre><auteur>Zola</auteur></livre>\n  <livre><auteur>Camus</auteur></livre>\n</bib>\n```\nCombien de livres retournent :\n\n**1.** `//livre[auteur = 'Zola']`\n**2.** `//livre[auteur != 'Zola']`\n**3.** `//livre[auteur = 'Zola' and auteur != 'Zola']`",
+  "correction": "**Résultat : 1 → 2 livres · 2 → 2 livres · 3 → 1 livre (le premier !).**\n\n**Le piège :** sur une séquence, `=` est **existentiel** : « au moins un `auteur` vaut Zola ». De même `!=` : « au moins un `auteur` diffère de Zola ». Le livre 1 (Zola **et** Hugo) satisfait donc **les deux à la fois** — c'est pour ça que l'expression 3, qui semble contradictoire, retourne quand même un livre.\n\n**Règle à retenir :** `=` et `!=` sur des séquences ne sont **pas** complémentaires. Pour « tous les auteurs sont Zola », il faut nier l'existentiel : `//livre[not(auteur != 'Zola')]`. Question d'examen typique : « pourquoi ce prédicat apparemment contradictoire retourne-t-il un résultat ? »"
+ },
+ {
+  "id": "xpath-5",
+  "topic": "xpath",
+  "topicLabel": "XPath",
+  "level": "medium",
+  "type": "write",
+  "title": "Réécriture avec l'opérateur flèche =>",
+  "prompt": "Réécris cette expression (style examen 2020/2025) en utilisant l'opérateur flèche `=>` :\n\n```\nupper-case(substring(string-join(//nom, '-'), 1, 8))\n```",
+  "correction": "**Corrigé :**\n```\nstring-join(//nom, '-') => substring(1, 8) => upper-case()\n```\n(ou en poussant : `//nom => string-join('-') => substring(1, 8) => upper-case()`)\n\n**Les pièges :**\n- `=>` passe l'expression de gauche comme **premier argument** de la fonction : les arguments restants se décalent — `substring(1, 8)` et non `substring(., 1, 8)` ;\n- les **parenthèses restent obligatoires** même sans argument : `=> upper-case()` — écrire `=> upper-case` est une erreur de syntaxe ;\n- l'ordre se lit désormais de gauche à droite : la fonction la plus **imbriquée** devient la **première** de la chaîne.\n\n**Règle à retenir :** pour réécrire, pars de l'intérieur des parenthèses et déroule vers l'extérieur. C'est l'exercice de réécriture favori des examens récents."
+ },
+ {
+  "id": "xpath-6",
+  "topic": "xpath",
+  "topicLabel": "XPath",
+  "level": "hard",
+  "type": "predict",
+  "title": "L'opérateur ! (simple map)",
+  "prompt": "Document :\n```xml\n<produits>\n  <p code=\"X1\"/><p code=\"A2\"/><p code=\"X3\"/>\n</produits>\n```\nQue retournent :\n\n**1.** `//@code ! starts-with(., \"X\")`\n**2.** `//@code[starts-with(., \"X\")]`\n**3.** `count(//@code ! starts-with(., \"X\"))`",
+  "correction": "**Résultat :**\n1. `true false true` — une **séquence de 3 booléens** ;\n2. les **attributs** `code=\"X1\"` et `code=\"X3\"` ;\n3. `3` (pas 2 !).\n\n**Le piège :** `!` applique l'expression de droite **à chaque item** et retourne les résultats — il transforme (map), il ne filtre pas. Le prédicat `[...]` filtre. Du coup `count(...)` sur la version `!` compte les **booléens produits** (3), pas les codes commençant par X. Pour compter les X : `count(//@code[starts-with(., \"X\")])` → 2.\n\n**Règle à retenir :** `!` = « pour chaque item, calcule » (garde ordre et doublons, accepte des résultats non-nœuds) · `/` exige des étapes de nœuds (tri document + dédoublonnage) · `[...]` = filtre. Question d'examen 2025 mot pour mot."
+ },
+ {
+  "id": "xpath-7",
+  "topic": "xpath",
+  "topicLabel": "XPath",
+  "level": "hard",
+  "type": "predict",
+  "title": "L'ordre des prédicats change le résultat",
+  "prompt": "Document :\n```xml\n<bib>\n  <livre dispo=\"non\"><t>A</t></livre>\n  <livre dispo=\"oui\"><t>B</t></livre>\n  <livre dispo=\"oui\"><t>C</t></livre>\n</bib>\n```\nQue retournent :\n\n**1.** `//livre[@dispo='oui'][2]`\n**2.** `//livre[2][@dispo='oui']`",
+  "correction": "**Résultat : 1 → le livre C · 2 → le livre B.**\n\n**Le piège :** les prédicats s'appliquent **en chaîne, de gauche à droite**, et la position se recalcule après chaque filtre :\n- **1** : on garde d'abord les disponibles (B, C), puis on prend le 2ᵉ **de cette sélection** → C ;\n- **2** : on prend d'abord le 2ᵉ livre du document (B), puis on vérifie qu'il est disponible → B passe.\n\nAvec `[@dispo='non']` en second, l'expression 2 retournerait **rien** — alors que `[2]` seul retournait bien un livre.\n\n**Règle à retenir :** `[p1][p2]` ≠ `[p2][p1]` dès qu'un prédicat est positionnel. Lis toujours les prédicats comme des filtres successifs qui renumérotent."
+ },
+ {
+  "id": "xslt-1",
+  "topic": "xslt",
+  "topicLabel": "XSLT",
+  "level": "warm-up",
+  "type": "predict",
+  "title": "Le texte qui fuit — règles par défaut",
+  "prompt": "Document :\n```xml\n<bib>\n  <livre><titre>XML</titre><prix>120</prix></livre>\n  <livre><titre>RDF</titre><prix>90</prix></livre>\n</bib>\n```\nFeuille XSLT (seule règle) :\n```xml\n<xsl:template match=\"titre\">\n  <h2><xsl:value-of select=\".\"/></h2>\n</xsl:template>\n```\nQuelle est la sortie exacte ? (indice : il n'y a **pas que** les `<h2>`)",
+  "correction": "**Résultat :**\n```\n<h2>XML</h2>120\n<h2>RDF</h2>90\n```\nLes prix apparaissent **sans balise** dans la sortie.\n\n**Le piège :** les **règles par défaut** (built-in templates). Sans template pour un élément, XSLT descend récursivement dans ses enfants ; et la règle par défaut des **nœuds texte les copie dans la sortie**. `prix` n'a pas de template → son texte `120` fuit.\n\n**Comment l'empêcher :** un template vide `<xsl:template match=\"prix\"/>`, ou piloter la descente : `<xsl:template match=\"livre\"><xsl:apply-templates select=\"titre\"/></xsl:template>`.\n\n**Règle à retenir :** si du texte inattendu apparaît dans ta sortie, c'est presque toujours la règle par défaut des nœuds texte. Question classique : « expliquez d'où vient ce texte parasite »."
+ },
+ {
+  "id": "xslt-2",
+  "topic": "xslt",
+  "topicLabel": "XSLT",
+  "level": "medium",
+  "type": "predict",
+  "title": "Trier des nombres… comme du texte",
+  "prompt": "Document :\n```xml\n<notes><n>9</n><n>10</n><n>100</n><n>25</n></notes>\n```\nTemplate :\n```xml\n<xsl:template match=\"notes\">\n  <xsl:for-each select=\"n\">\n    <xsl:sort select=\".\"/>\n    <xsl:value-of select=\".\"/><xsl:text> </xsl:text>\n  </xsl:for-each>\n</xsl:template>\n```\nQuelle est la sortie ? Comment corriger pour un tri numérique **décroissant** ?",
+  "correction": "**Résultat : `10 100 25 9`** — l'ordre alphabétique, pas numérique.\n\n**Le piège :** `xsl:sort` trie **en texte par défaut** : « 10 » < « 100 » < « 25 » < « 9 » caractère par caractère, comme dans un dictionnaire.\n\n**Correction :**\n```xml\n<xsl:sort select=\".\" data-type=\"number\" order=\"descending\"/>\n```\n→ `100 25 10 9`.\n\n**Règle à retenir :** tout tri de valeurs numériques exige `data-type=\"number\"` ; le sens se règle avec `order=\"ascending|descending\"`. Aux examens, le tri décroissant demandé sans `data-type` est LE point retiré ; et `xsl:sort` doit être **le premier enfant** du `for-each`/`apply-templates`."
+ },
+ {
+  "id": "xslt-3",
+  "topic": "xslt",
+  "topicLabel": "XSLT",
+  "level": "medium",
+  "type": "predict",
+  "title": "xsl:copy ne copie presque rien",
+  "prompt": "Document :\n```xml\n<livre isbn=\"123\"><titre>XML</titre></livre>\n```\nDeux templates :\n\n**1.**\n```xml\n<xsl:template match=\"livre\"><xsl:copy/></xsl:template>\n```\n**2.**\n```xml\n<xsl:template match=\"livre\"><xsl:copy-of select=\".\"/></xsl:template>\n```\nQuelle est la sortie de chacun ?",
+  "correction": "**Résultat :**\n1. `<livre/>` — élément **vide, sans attribut** ;\n2. `<livre isbn=\"123\"><titre>XML</titre></livre>` — copie intégrale.\n\n**Le piège :** `xsl:copy` est une copie **superficielle** : le nœud seul, **sans ses attributs ni ses enfants**. C'est pour ça que le template identité doit tout relancer explicitement :\n```xml\n<xsl:template match=\"@*|node()\">\n  <xsl:copy><xsl:apply-templates select=\"@*|node()\"/></xsl:copy>\n</xsl:template>\n```\n(le `@*` dans le `select` est ce qui récupère les attributs — l'oublier est l'erreur classique, exam 2025).\n\n**Règle à retenir :** `copy` = coquille vide à remplir (idéal pour transformer en gardant la balise) · `copy-of` = clonage profond tel quel. Si les attributs disparaissent de ta sortie, c'est un `xsl:copy` sans `@*`."
+ },
+ {
+  "id": "xslt-4",
+  "topic": "xslt",
+  "topicLabel": "XSLT",
+  "level": "medium",
+  "type": "predict",
+  "title": "xsl:attribute arrive trop tard",
+  "prompt": "Ce template veut produire `<a href=\"…\">…</a>` :\n```xml\n<xsl:template match=\"lien\">\n  <a>\n    <xsl:value-of select=\"titre\"/>\n    <xsl:attribute name=\"href\"><xsl:value-of select=\"@url\"/></xsl:attribute>\n  </a>\n</xsl:template>\n```\nQuel est le problème ? Donne deux façons correctes de l'écrire.",
+  "correction": "**Le problème :** `xsl:attribute` est placé **après** du contenu (`value-of`). Un attribut doit être ajouté **avant tout enfant** de l'élément — ici le processeur lève une erreur (ou ignore l'attribut selon les versions).\n\n**Deux corrections :**\n\n1. remonter le `xsl:attribute` en premier :\n```xml\n<a>\n  <xsl:attribute name=\"href\" select=\"@url\"/>\n  <xsl:value-of select=\"titre\"/>\n</a>\n```\n2. plus court — **attribute value template** (accolades) :\n```xml\n<a href=\"{@url}\"><xsl:value-of select=\"titre\"/></a>\n```\n\n**Règle à retenir :** attributs d'abord, contenu ensuite. Et dans un littéral de sortie, `{expr}` évalue l'expression **dans une valeur d'attribut** — réflexe à avoir avant de dégainer `xsl:attribute`, réservé aux noms d'attributs calculés."
+ },
+ {
+  "id": "xslt-5",
+  "topic": "xslt",
+  "topicLabel": "XSLT",
+  "level": "hard",
+  "type": "write",
+  "title": "Produire du JSON — virgules et guillemets",
+  "prompt": "Document :\n```xml\n<bib>\n  <livre><titre>XML</titre><prix>120</prix></livre>\n  <livre><titre>RDF &amp; OWL</titre><prix>90</prix></livre>\n</bib>\n```\nÉcris un template XSLT produisant **exactement** ce JSON (titres = chaînes, prix = nombres, pas de virgule finale) :\n\n```json\n[{\"titre\": \"XML\", \"prix\": 120}, {\"titre\": \"RDF & OWL\", \"prix\": 90}]\n```",
+  "correction": "**Corrigé :**\n```xml\n<xsl:output method=\"text\"/>\n<xsl:template match=\"bib\">\n  <xsl:text>[</xsl:text>\n  <xsl:for-each select=\"livre\">\n    <xsl:text>{\"titre\": \"</xsl:text>\n    <xsl:value-of select=\"titre\"/>\n    <xsl:text>\", \"prix\": </xsl:text>\n    <xsl:value-of select=\"prix\"/>\n    <xsl:text>}</xsl:text>\n    <xsl:if test=\"position() != last()\"><xsl:text>, </xsl:text></xsl:if>\n  </xsl:for-each>\n  <xsl:text>]</xsl:text>\n</xsl:template>\n```\n\n**Les pièges (le barème, en pratique) :**\n- **la virgule** : `position() != last()` — sans ce test on produit `}, ]`, JSON invalide (piège n°1 de l'examen 2020) ;\n- **les guillemets** : le titre (chaîne) en a, le prix (**nombre**) n'en a **pas** — les mettre partout est l'erreur symétrique ;\n- `method=\"text\"` sinon le processeur ajoute la déclaration XML devant le JSON ;\n- le `&amp;` du source ressort naturellement en `&` : ne pas « corriger » à la main.\n\n**Checklist :**\n- ✔ `[` et `]` hors boucle\n- ✔ virgule conditionnelle `position() != last()`\n- ✔ guillemets sur les chaînes seulement\n- ✔ `xsl:output method=\"text\"`"
+ },
+ {
+  "id": "xquery-1",
+  "topic": "xquery",
+  "topicLabel": "XQuery",
+  "level": "warm-up",
+  "type": "predict",
+  "title": "let n'itère pas",
+  "prompt": "Que retournent ces trois requêtes ?\n\n**1.**\n```xquery\nfor $x in (10, 20, 30) return $x * 2\n```\n**2.**\n```xquery\nlet $x := (10, 20, 30) return $x * 2\n```\n**3.**\n```xquery\nlet $x := (10, 20, 30) return count($x) * 2\n```",
+  "correction": "**Résultat :**\n1. `20 40 60` ;\n2. **erreur de type** — on ne peut pas multiplier une séquence de 3 items par 2 ;\n3. `6`.\n\n**Le piège :** `for` **itère** ($x prend chaque valeur tour à tour), `let` **lie la séquence entière** d'un coup. `$x * 2` avec `let` tente `(10,20,30) * 2` → erreur. En revanche les fonctions d'agrégat (`count`, `sum`, `avg`) attendent justement la séquence entière — d'où le 3 qui marche.\n\n**Règle à retenir :** traitement **item par item** → `for` ; valeur **globale** (agrégat, réutilisation) → `let`. Les deux se combinent dans un même FLWOR."
+ },
+ {
+  "id": "xquery-2",
+  "topic": "xquery",
+  "topicLabel": "XQuery",
+  "level": "medium",
+  "type": "write",
+  "title": "Filtrer sans se soucier de la casse",
+  "prompt": "Document `pays.xml` :\n```xml\n<liste>\n  <pays><nom>Maroc</nom></pays>\n  <pays><nom>MALI</nom></pays>\n  <pays><nom>tunisie</nom></pays>\n  <pays><nom>madagascar</nom></pays>\n</liste>\n```\nÉcris une fonction `local:pays($lettre)` qui retourne les noms des pays commençant par la lettre donnée, **quelle que soit la casse** des deux côtés. `local:pays(\"m\")` doit retourner Maroc, MALI et madagascar.",
+  "correction": "**Corrigé :**\n```xquery\ndeclare function local:pays($lettre as xs:string) as xs:string* {\n  for $n in doc(\"pays.xml\")//pays/nom\n  where starts-with(lower-case($n), lower-case($lettre))\n  return string($n)\n};\n```\n\n**Le piège** (celui de l'examen 2020) : normaliser **les deux côtés**. `starts-with($n, $lettre)` rate MALI si on passe `\"m\"` ; `lower-case($n)` seul rate si l'utilisateur passe `\"M\"`. Il faut `lower-case(...)` sur le nom **et** sur le paramètre.\n\n**Checklist :**\n- ✔ `lower-case()` (ou `upper-case()`) appliqué aux **deux** opérandes\n- ✔ `starts-with()` et non `contains()` (« commençant par »)\n- ✔ signature de fonction : `declare function local:...(...) { ... };` avec le `;` final\n- ✔ pensé à tester avec `\"m\"` ET `\"M\"` mentalement"
+ },
+ {
+  "id": "xquery-3",
+  "topic": "xquery",
+  "topicLabel": "XQuery",
+  "level": "medium",
+  "type": "predict",
+  "title": "= général vs eq atomique",
+  "prompt": "Que retournent ces expressions ?\n\n**1.** `(1, 2, 3) = 2`\n**2.** `(1, 2, 3) eq 2`\n**3.** `() = 2`\n**4.** `2 eq 2.0`",
+  "correction": "**Résultat :**\n1. `true` — comparaison **générale**, existentielle : « au moins un item vaut 2 » ;\n2. **erreur de type** — `eq` exige un **singleton** de chaque côté ;\n3. `false` — toute comparaison générale avec la séquence vide est fausse (jamais une erreur) ;\n4. `true` — `eq` compare les valeurs numériques après promotion de type.\n\n**Le piège :** `=` et `eq` ne sont pas interchangeables. `=` est tolérant (séquences, existentiel, vide → false) ; `eq`/`ne`/`lt`/`gt`… sont stricts (un seul item, sinon erreur). Le comportement 3 explique beaucoup de `where` qui « ne matchent pas » silencieusement au lieu de planter.\n\n**Règle à retenir :** valeur scalaire certaine → `eq` (plus sûr, les erreurs se voient) ; séquence possible → `=` en connaissant sa sémantique existentielle (cf. le piège XPath `!=`)."
+ },
+ {
+  "id": "xquery-4",
+  "topic": "xquery",
+  "topicLabel": "XQuery",
+  "level": "hard",
+  "type": "predict",
+  "title": "Naviguer dans du JSON : ? et ?*",
+  "prompt": "`match.json` :\n```json\n{ \"equipes\": [\n    {\"nom\": \"WAC\", \"buts\": 3},\n    {\"nom\": \"RAJA\", \"buts\": 1},\n    {\"nom\": \"FAR\", \"buts\": 2}\n]}\n```\nAvec `let $d := json-doc(\"match.json\")`, que retournent :\n\n**1.** `$d?equipes`\n**2.** `$d?equipes?*`\n**3.** `for $e in $d?equipes?* where $e?buts ge 2 return $e?nom`",
+  "correction": "**Résultat :**\n1. **le tableau** (array) — un seul item ;\n2. les **3 maps** membres du tableau — l'array est déplié ;\n3. `\"WAC\" \"FAR\"`.\n\n**Le piège :** un JSON parsé devient des **maps et arrays**, pas des nœuds XML — les axes XPath (`//`, `/`) n'y fonctionnent pas. La navigation se fait avec `?clé` (lookup dans une map) et `?*` (tous les membres d'un array / toutes les valeurs d'une map). Oublier le `?*` et écrire `for $e in $d?equipes` itère sur **un seul item** (l'array lui-même) : `$e?buts` renvoie vide et le `where` élimine tout — résultat vide sans message d'erreur.\n\n**Règle à retenir :** map → `?clé` · array → `?*` pour itérer, `?1` pour le premier membre (indexé à partir de 1). Chaîne type examen 2025 : `json-doc(...)?cle?*` puis FLWOR."
+ },
+ {
+  "id": "xquery-5",
+  "topic": "xquery",
+  "topicLabel": "XQuery",
+  "level": "hard",
+  "type": "predict",
+  "title": "order by trie en texte les valeurs non typées",
+  "prompt": "Document (sans schéma) :\n```xml\n<bib>\n  <livre><t>A</t><prix>90</prix></livre>\n  <livre><t>B</t><prix>120</prix></livre>\n  <livre><t>C</t><prix>25</prix></livre>\n</bib>\n```\n```xquery\nfor $l in //livre\norder by $l/prix descending\nreturn string($l/t)\n```\nQuelle est la sortie ? Comment obtenir le vrai tri par prix ?",
+  "correction": "**Résultat : `A C B`** (90 > 25 > 120 en ordre texte inverse) — pas `B A C`.\n\n**Le piège :** sans schéma, `prix` est du **xs:untypedAtomic** : `order by` le compare **comme une chaîne**. « 90 » > « 25 » > « 120 » alphabétiquement. C'est le jumeau XQuery du piège `xsl:sort` sans `data-type=\"number\"`.\n\n**Correction :**\n```xquery\norder by number($l/prix) descending\n```\n(ou `xs:decimal($l/prix)`) → `B A C`.\n\n**Règle à retenir :** toute clé de tri numérique sur du XML non validé doit passer par `number()` / un cast. Même réflexe pour les comparaisons : `where $l/prix > 100` fonctionne (promotion numérique de `>` sur untyped)… mais `order by` non — c'est l'asymétrie qui piège."
+ },
+ {
+  "id": "json-1",
+  "topic": "json",
+  "topicLabel": "JSON & JSON Schema",
+  "level": "warm-up",
+  "type": "predict",
+  "title": "Syntaxe JSON : valide ou pas ?",
+  "prompt": "Pour chacun, JSON **valide** ou non (et pourquoi) ?\n\n**1.** `{\"nom\": \"Ali\", \"age\": 25}`\n**2.** `{\"nom\": 'Ali'}`\n**3.** `{nom: \"Ali\"}`\n**4.** `{\"notes\": [12, 15, 18,]}`\n**5.** `{\"actif\": True}`\n**6.** `{\"adresse\": null}`",
+  "correction": "**Résultat : 1 ✔ · 2 ✘ · 3 ✘ · 4 ✘ · 5 ✘ · 6 ✔**\n\n- **2 ✘** — chaînes en **guillemets doubles** uniquement, jamais d'apostrophes ;\n- **3 ✘** — les **clés** sont des chaînes : guillemets obligatoires (piège pour qui vient de JavaScript) ;\n- **4 ✘** — **virgule finale interdite** avant `]` ou `}` ;\n- **5 ✘** — les littéraux sont `true`, `false`, `null` **en minuscules** (`True` = Python) ;\n- **6 ✔** — `null` est une valeur parfaitement légale.\n\n**Règle à retenir :** JSON ≠ JavaScript ≠ Python. Ni commentaires, ni apostrophes, ni clés nues, ni virgule traînante, ni `NaN`/`Infinity`. Ce sont exactement les 5 fautes que l'examen glisse dans un « ce document est-il valide ? »."
+ },
+ {
+  "id": "json-2",
+  "topic": "json",
+  "topicLabel": "JSON & JSON Schema",
+  "level": "medium",
+  "type": "predict",
+  "title": "properties n'impose rien",
+  "prompt": "Schéma :\n```json\n{\n  \"type\": \"object\",\n  \"properties\": {\n    \"age\": { \"type\": \"integer\" },\n    \"nom\": { \"type\": \"string\" }\n  }\n}\n```\nValides ou pas ?\n\n**1.** `{\"age\": 25, \"nom\": \"Ali\"}`\n**2.** `{}`\n**3.** `{\"age\": \"25\", \"nom\": \"Ali\"}`\n**4.** `{\"nom\": \"Ali\", \"ville\": \"Rabat\"}`",
+  "correction": "**Résultat : 1 ✔ · 2 ✔ · 3 ✘ · 4 ✔**\n\n- **2 ✔** — `properties` décrit les champs **s'ils sont présents** ; il n'oblige rien. Sans `\"required\": [\"age\", \"nom\"]`, l'objet vide passe. LE piège n°1 de JSON Schema.\n- **3 ✘** — `\"25\"` est une chaîne, pas un `integer` : aucune conversion automatique.\n- **4 ✔** — les champs non déclarés sont **acceptés par défaut** ; il faut `\"additionalProperties\": false` pour fermer l'objet.\n\n**Règle à retenir :** un schéma strict = le trio `properties` (types) + `required` (présence) + `additionalProperties: false` (fermeture). Chacun des trois manquants est un piège d'examen indépendant."
+ },
+ {
+  "id": "json-3",
+  "topic": "json",
+  "topicLabel": "JSON & JSON Schema",
+  "level": "medium",
+  "type": "write",
+  "title": "XML → JSON : attributs, répétitions, types",
+  "prompt": "Convertis ce XML en JSON (convention : attributs préfixés par `@`) en choisissant des **types JSON pertinents** :\n\n```xml\n<etudiant cne=\"E123\" actif=\"true\">\n  <nom>Ali</nom>\n  <note>12.5</note>\n  <note>15</note>\n</etudiant>\n```",
+  "correction": "**Corrigé :**\n```json\n{\n  \"etudiant\": {\n    \"@cne\": \"E123\",\n    \"@actif\": true,\n    \"nom\": \"Ali\",\n    \"note\": [12.5, 15]\n  }\n}\n```\n\n**Les pièges :**\n- l'élément **répété** `note` devient un **tableau** — deux clés `\"note\"` dans le même objet seraient du JSON invalide (clés uniques) ;\n- **typage** : `actif=\"true\"` → booléen `true`, les notes → nombres. Tout laisser en chaînes (`\"12.5\"`, `\"true\"`) est l'erreur sanctionnée ; à l'inverse `\"E123\"` **reste une chaîne** (ce n'est pas un nombre) ;\n- les attributs se distinguent des éléments (`@`), sinon la conversion inverse est ambiguë.\n\n**Checklist :**\n- ✔ objet racine portant le nom de l'élément racine\n- ✔ `@` sur `cne` et `actif`\n- ✔ `note` en tableau `[12.5, 15]`, valeurs numériques\n- ✔ `true` sans guillemets, `\"E123\"` avec"
+ },
+ {
+  "id": "json-4",
+  "topic": "json",
+  "topicLabel": "JSON & JSON Schema",
+  "level": "medium",
+  "type": "write",
+  "title": "JSON → XML : null, tableaux, booléens",
+  "prompt": "Convertis ce JSON en XML et **justifie** tes choix pour `email` et `tags` :\n\n```json\n{\n  \"produit\": {\n    \"nom\": \"Clavier\",\n    \"dispo\": false,\n    \"email\": null,\n    \"tags\": [\"promo\", \"gamer\"]\n  }\n}\n```",
+  "correction": "**Corrigé (une solution justifiée) :**\n```xml\n<produit>\n  <nom>Clavier</nom>\n  <dispo>false</dispo>\n  <email/>\n  <tags>promo</tags>\n  <tags>gamer</tags>\n</produit>\n```\n\n**Les pièges — les deux points à justifier :**\n- **`null` n'a pas d'équivalent XML natif.** Choix possibles : élément vide `<email/>`, omettre l'élément, ou `xsi:nil=\"true\"` (le plus rigoureux). N'importe lequel est accepté **si tu le justifies** ; ne rien dire est le piège. Attention : `<email/>` ≡ chaîne vide ≠ null, d'où l'intérêt de `xsi:nil`.\n- **un tableau devient une répétition d'éléments** de même nom — pas `<tags>promo, gamer</tags>` (on perd la structure), pas `<tags><item>…` inventé sans le dire.\n- `false` devient du **texte** en XML : la typage est perdu — c'est la remarque symétrique de l'exercice XML→JSON.\n\n**Checklist :**\n- ✔ un élément par valeur du tableau\n- ✔ traitement de `null` **explicitement justifié**\n- ✔ pas de virgules ni crochets résiduels dans le XML"
+ },
+ {
+  "id": "json-5",
+  "topic": "json",
+  "topicLabel": "JSON & JSON Schema",
+  "level": "hard",
+  "type": "predict",
+  "title": "required et additionalProperties ne traversent pas les niveaux",
+  "prompt": "Schéma :\n```json\n{\n  \"type\": \"object\",\n  \"required\": [\"client\"],\n  \"additionalProperties\": false,\n  \"properties\": {\n    \"client\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"nom\": { \"type\": \"string\" }\n      }\n    }\n  }\n}\n```\nValides ou pas ?\n\n**1.** `{\"client\": {}}`\n**2.** `{\"client\": {\"nom\": \"Ali\", \"vip\": true}}`\n**3.** `{\"client\": {\"nom\": \"Ali\"}, \"total\": 100}`",
+  "correction": "**Résultat : 1 ✔ · 2 ✔ · 3 ✘**\n\n- **1 ✔** — `required: [\"client\"]` n'exige que `client` **au niveau racine** ; rien n'exige `nom` **dans** client (il faudrait un `required` interne).\n- **2 ✔** — le `additionalProperties: false` de la racine **ne s'applique pas** à l'objet imbriqué `client`, qui reste ouvert : `vip` passe.\n- **3 ✘** — `total` est un champ non déclaré **au niveau racine**, où la fermeture s'applique.\n\n**Le piège :** `required` et `additionalProperties` sont **locaux à leur objet**. Chaque niveau d'imbrication doit répéter ses propres contraintes — un schéma « strict en haut » peut être un passoire en bas.\n\n**Règle à retenir :** pour verrouiller un schéma, vérifie niveau par niveau : chaque `\"type\": \"object\"` a-t-il son `required` et son `additionalProperties: false` ?"
+ },
+ {
+  "id": "json-6",
+  "topic": "json",
+  "topicLabel": "JSON & JSON Schema",
+  "level": "hard",
+  "type": "write",
+  "title": "Écrire un JSON Schema complet",
+  "prompt": "Écris le JSON Schema d'une `commande` : un objet **fermé** avec `num` (chaîne obligatoire), `urgente` (booléen optionnel), et `articles` : un tableau **d'au moins un** objet, chaque article ayant obligatoirement `ref` (chaîne) et `qte` (entier **≥ 1**), sans autre champ.\n\nDocument valide d'exemple :\n```json\n{\"num\": \"C42\", \"articles\": [{\"ref\": \"K1\", \"qte\": 2}]}\n```",
+  "correction": "**Corrigé :**\n```json\n{\n  \"type\": \"object\",\n  \"required\": [\"num\", \"articles\"],\n  \"additionalProperties\": false,\n  \"properties\": {\n    \"num\": { \"type\": \"string\" },\n    \"urgente\": { \"type\": \"boolean\" },\n    \"articles\": {\n      \"type\": \"array\",\n      \"minItems\": 1,\n      \"items\": {\n        \"type\": \"object\",\n        \"required\": [\"ref\", \"qte\"],\n        \"additionalProperties\": false,\n        \"properties\": {\n          \"ref\": { \"type\": \"string\" },\n          \"qte\": { \"type\": \"integer\", \"minimum\": 1 }\n        }\n      }\n    }\n  }\n}\n```\n\n**Les pièges :**\n- `urgente` optionnel = déclaré dans `properties` mais **absent de `required`** — c'est tout ;\n- « au moins un article » → `minItems: 1` sur le **tableau**, pas un `required` ;\n- « entier ≥ 1 » → `\"minimum\": 1` (ou `exclusiveMinimum: 0`) sur `qte` ;\n- les contraintes des articles (`required`, `additionalProperties`) vont **dans `items`** — au niveau du tableau elles ne feraient rien (cf. exercice précédent).\n\n**Checklist :**\n- ✔ `required` racine = `[\"num\", \"articles\"]` seulement\n- ✔ `additionalProperties: false` aux **deux** niveaux d'objet\n- ✔ `minItems: 1`\n- ✔ `qte` : `integer` + `minimum: 1`"
+ },
+ {
+  "id": "rdf-1",
+  "topic": "rdf",
+  "topicLabel": "RDF · RDFS · OWL",
+  "level": "warm-up",
+  "type": "predict",
+  "title": "Anatomie d'un triplet",
+  "prompt": "Lesquels de ces triplets (sujet, prédicat, objet) sont **légaux en RDF** ?\n\n**1.** `:alBoraq  :relie  :Casablanca`\n**2.** `\"Al Boraq\"  :estUn  :Train`\n**3.** `:alBoraq  :vitesse  \"320\"`\n**4.** `:alBoraq  \"vitesse\"  320`\n**5.** `_:b1  :relie  :Tanger`",
+  "correction": "**Résultat : 1 ✔ · 2 ✘ · 3 ✔ · 4 ✘ · 5 ✔**\n\n- **2 ✘** — un **littéral ne peut pas être sujet**. Sujet = ressource (URI) ou nœud blanc.\n- **4 ✘** — le **prédicat est toujours une URI** — jamais un littéral.\n- **5 ✔** — un **nœud blanc** (`_:b1`) est un sujet valide : ressource sans URI.\n\n**Le piège :** retenir la matrice des positions.\n\n| position | URI | nœud blanc | littéral |\n|---|---|---|---|\n| sujet | ✔ | ✔ | ✘ |\n| prédicat | ✔ | ✘ | ✘ |\n| objet | ✔ | ✔ | ✔ |\n\n**Règle à retenir :** le littéral n'apparaît **qu'en objet** ; le prédicat n'est **qu'une URI**. Toute question « ce graphe est-il correct ? » commence par vérifier ces positions."
+ },
+ {
+  "id": "rdf-2",
+  "topic": "rdf",
+  "topicLabel": "RDF · RDFS · OWL",
+  "level": "medium",
+  "type": "predict",
+  "title": "domain/range : inférence, pas validation",
+  "prompt": "Ontologie :\n```turtle\n:enseigne rdfs:domain :Professeur ;\n          rdfs:range  :Module .\n```\nFaits :\n```turtle\n:ali :enseigne :xml .\n:ali rdf:type :Etudiant .\n```\n**1.** Le raisonneur signale-t-il une erreur (un étudiant qui enseigne) ?\n**2.** Quels triplets sont **inférés** ?",
+  "correction": "**Résultat :**\n1. **Aucune erreur.**\n2. Inférés : `:ali rdf:type :Professeur` et `:xml rdf:type :Module`.\n\n**Le piège :** en RDFS, `domain` et `range` ne sont **pas des contraintes** à la façon d'un schéma XML — ce sont des **règles d'inférence**. Voir `:ali :enseigne :xml` ne fait pas rejeter le triplet : le raisonneur en **déduit** que `:ali` est un Professeur. Résultat : `:ali` est à la fois `:Etudiant` et `:Professeur` — parfaitement admis tant que rien ne déclare les classes disjointes (`owl:disjointWith`).\n\n**Règle à retenir :** monde des schémas XML = **validation** (rejeter l'invalide) ; monde RDF/OWL = **inférence** sous hypothèse du monde ouvert (déduire du nouveau). C'est LA question de compréhension type sur RDFS."
+ },
+ {
+  "id": "rdf-3",
+  "topic": "rdf",
+  "topicLabel": "RDF · RDFS · OWL",
+  "level": "medium",
+  "type": "predict",
+  "title": "rdf:type vs rdfs:subClassOf",
+  "prompt": "```turtle\n:Etudiant rdfs:subClassOf :Personne .\n:Master   rdfs:subClassOf :Etudiant .\n:sara     rdf:type        :Master .\n```\n**1.** Quels triplets `rdf:type` sont inférés pour `:sara` ?\n**2.** Un camarade écrit `:sara rdfs:subClassOf :Master` — pourquoi est-ce faux ?\n**3.** Peut-on inférer `:Master rdf:type :Personne` ?",
+  "correction": "**Résultat :**\n1. `:sara rdf:type :Etudiant` et `:sara rdf:type :Personne` — `subClassOf` est **transitif**, et l'instance remonte toute la hiérarchie.\n2. `subClassOf` relie **deux classes** ; `:sara` est un **individu**. Confondre appartenance (`rdf:type`) et inclusion (`subClassOf`) est l'erreur de modélisation classique.\n3. **Non.** `:Master` est une sous-classe de `:Personne`, pas une instance : `rdf:type` ne s'infère pas de `subClassOf` (l'inférence est : instance de la sous-classe ⇒ instance de la super-classe, pas classe ⇒ instance).\n\n**Règle à retenir :** `rdf:type` = « est un » (individu → classe) ; `rdfs:subClassOf` = « tout X est un Y » (classe → classe). Test mental : remplace par la phrase française — « Sara est incluse dans Master » sonne faux, « Sara est un Master » sonne juste."
+ },
+ {
+  "id": "rdf-4",
+  "topic": "rdf",
+  "topicLabel": "RDF · RDFS · OWL",
+  "level": "hard",
+  "type": "predict",
+  "title": "Transitive + inverseOf : dérouler l'inférence",
+  "prompt": "```turtle\n:ancetre a owl:TransitiveProperty .\n:descendant owl:inverseOf :ancetre .\n\n:ahmed :ancetre :karim .\n:karim :ancetre :yassine .\n```\nListe **tous** les triplets inférés (avec `:ancetre` et `:descendant`).",
+  "correction": "**Résultat — 5 triplets inférés :**\n```turtle\n:ahmed   :ancetre    :yassine .   # transitivité\n:karim   :descendant :ahmed .    # inverse du fait 1\n:yassine :descendant :karim .    # inverse du fait 2\n:yassine :descendant :ahmed .    # inverse du triplet transitif\n```\n(et par symétrie de `inverseOf`, tout `:descendant` réinférerait les `:ancetre` correspondants — déjà présents.)\n\n**Le piège :** l'oubli classique est le **4ᵉ** : il faut appliquer l'inverse **aussi aux triplets produits par la transitivité**, pas seulement aux faits de départ. Le raisonneur applique les règles **jusqu'à saturation** — toi aussi sur ta copie : repasse chaque règle tant que de nouveaux triplets apparaissent.\n\n**Règle à retenir :** méthode en deux passes minimum — 1) transitivité sur les faits, 2) inverses sur **tout** (faits + inférés), 3) revérifier qu'aucune règle ne produit plus rien. Barème de l'examen 2020 : un point par triplet, le croisé est celui qui manque."
+ },
+ {
+  "id": "rdf-5",
+  "topic": "rdf",
+  "topicLabel": "RDF · RDFS · OWL",
+  "level": "hard",
+  "type": "predict",
+  "title": "Chasser les erreurs d'un RDF/XML",
+  "prompt": "Ce document (style examen 2025) contient **trois erreurs**. Trouve-les :\n\n```xml\n<rdf:RDF xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n         xmlns:ex=\"http://exemple.org/\">\n  <rdf:Description rdf:about=\"http://exemple.org/alBoraq\">\n    <ex:type rdf:about=\"http://exemple.org/Train\"/>\n    <ex:relie>http://exemple.org/Casablanca</ex:relie>\n    <ex:vitesse rdf:datatype=\"xsd:integer\">320</ex:vitesse>\n  </rdf:Description>\n</rdf:RDF>\n```",
+  "correction": "**Les trois erreurs :**\n\n1. **`rdf:about` sur une propriété** — pour donner une ressource en **objet**, c'est **`rdf:resource`** : `<ex:type rdf:resource=\"http://exemple.org/Train\"/>`. (`rdf:about` identifie le **sujet** d'une Description ; et pour typer, on utiliserait plutôt `rdf:type`.)\n2. **URI écrite en texte** — `<ex:relie>http://…</ex:relie>` crée un **littéral** dont la valeur est la chaîne « http://… », pas un lien vers la ressource Casablanca. Correct : `<ex:relie rdf:resource=\"http://exemple.org/Casablanca\"/>`.\n3. **`rdf:datatype=\"xsd:integer\"`** — l'attribut attend une **URI complète**, pas un préfixe (les préfixes XML ne s'appliquent pas aux valeurs d'attributs) : `rdf:datatype=\"http://www.w3.org/2001/XMLSchema#integer\"`.\n\n**Règle à retenir :** en RDF/XML — sujet → `rdf:about` · objet-ressource → `rdf:resource` · objet-littéral → texte de l'élément · datatype → URI complète. Les erreurs d'examen sont toujours des permutations de ces quatre cases."
+ },
+ {
+  "id": "rdf-6",
+  "topic": "rdf",
+  "topicLabel": "RDF · RDFS · OWL",
+  "level": "hard",
+  "type": "predict",
+  "title": "FunctionalProperty : déduction, pas contradiction",
+  "prompt": "```turtle\n:aPourPere a owl:FunctionalProperty .\n\n:sara :aPourPere :ahmed .\n:sara :aPourPere :monsieurAlami .\n```\n**1.** Le raisonneur détecte-t-il une incohérence ?\n**2.** Qu'infère-t-il ?\n**3.** Et si on ajoute `:ahmed owl:differentFrom :monsieurAlami` ?",
+  "correction": "**Résultat :**\n1. **Non** — aucune incohérence pour l'instant.\n2. Il infère **`:ahmed owl:sameAs :monsieurAlami`** : une propriété fonctionnelle a au plus une valeur, donc si on en voit deux… c'est que ce sont **deux noms de la même ressource**.\n3. Là seulement, **incohérence** : `sameAs` (inféré) contredit `differentFrom` (déclaré).\n\n**Le piège :** l'hypothèse du **monde ouvert sans noms uniques** (no Unique Name Assumption) : deux URI différentes ne désignent pas forcément deux individus différents. Le réflexe « deux pères = erreur » vient des bases de données ; OWL préfère **réconcilier** par `sameAs`. C'est la question de raisonnement OWL2 la plus contre-intuitive — donc la plus posée.\n\n**Règle à retenir :** `FunctionalProperty` + deux objets ⇒ `owl:sameAs` inféré ; l'erreur n'apparaît que si les individus sont déclarés distincts (`owl:differentFrom` / `owl:AllDifferent`). Symétrique : `InverseFunctionalProperty` identifie par la valeur (même email ⇒ même personne)."
+ }
+]
