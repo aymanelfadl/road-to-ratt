@@ -14,8 +14,9 @@ ou des examens réels 2020/2025 — jamais une simple question de cours. Le flux
    **règle à retenir**, et une **checklist de correction** pour les exercices d'écriture ;
 3. **S'auto-évaluer** honnêtement — « Je savais » / « À revoir » (sauvegardé en `localStorage`).
 
-- 41 exercices sur 7 thèmes : XML & DTD, XML Schema, XPath, XSLT, XQuery,
-  JSON & JSON Schema, RDF & RDFS.
+- 47 exercices sur 7 thèmes : XML & DTD, XML Schema, XPath, XSLT, XQuery,
+  JSON & JSON Schema, RDF & RDFS. Le thème XQuery inclut une série progressive
+  sur les fonctions `array:*` / `map:*` de XQuery 3.1 (TD palmarès).
 - Deux types : **à prédire** (donner le résultat / valide ou pas / trouver l'erreur)
   et **à écrire** (produire du code : DTD, XSD, XPath, XSLT, JSON Schema…).
 - Trois niveaux affichés en badge (warm-up / medium / hard) ; dans un thème,
