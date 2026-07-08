@@ -236,7 +236,7 @@
   "level": "hard",
   "type": "write",
   "title": "Produire du JSON — virgules et guillemets",
-  "prompt": "Document :\n```xml\n<bib>\n  <livre><titre>XML</titre><prix>120</prix></livre>\n  <livre><titre>RDF &amp; OWL</titre><prix>90</prix></livre>\n</bib>\n```\nÉcris un template XSLT produisant **exactement** ce JSON (titres = chaînes, prix = nombres, pas de virgule finale) :\n\n```json\n[{\"titre\": \"XML\", \"prix\": 120}, {\"titre\": \"RDF & OWL\", \"prix\": 90}]\n```",
+  "prompt": "Document :\n```xml\n<bib>\n  <livre><titre>XML</titre><prix>120</prix></livre>\n  <livre><titre>RDF &amp; RDFS</titre><prix>90</prix></livre>\n</bib>\n```\nÉcris un template XSLT produisant **exactement** ce JSON (titres = chaînes, prix = nombres, pas de virgule finale) :\n\n```json\n[{\"titre\": \"XML\", \"prix\": 120}, {\"titre\": \"RDF & RDFS\", \"prix\": 90}]\n```",
   "correction": "**Corrigé :**\n```xml\n<xsl:output method=\"text\"/>\n<xsl:template match=\"bib\">\n  <xsl:text>[</xsl:text>\n  <xsl:for-each select=\"livre\">\n    <xsl:text>{\"titre\": \"</xsl:text>\n    <xsl:value-of select=\"titre\"/>\n    <xsl:text>\", \"prix\": </xsl:text>\n    <xsl:value-of select=\"prix\"/>\n    <xsl:text>}</xsl:text>\n    <xsl:if test=\"position() != last()\"><xsl:text>, </xsl:text></xsl:if>\n  </xsl:for-each>\n  <xsl:text>]</xsl:text>\n</xsl:template>\n```\n\n**Les pièges (le barème, en pratique) :**\n- **la virgule** : `position() != last()` — sans ce test on produit `}, ]`, JSON invalide (piège n°1 de l'examen 2020) ;\n- **les guillemets** : le titre (chaîne) en a, le prix (**nombre**) n'en a **pas** — les mettre partout est l'erreur symétrique ;\n- `method=\"text\"` sinon le processeur ajoute la déclaration XML devant le JSON ;\n- le `&amp;` du source ressort naturellement en `&` : ne pas « corriger » à la main.\n\n**Checklist :**\n- ✔ `[` et `]` hors boucle\n- ✔ virgule conditionnelle `position() != last()`\n- ✔ guillemets sur les chaînes seulement\n- ✔ `xsl:output method=\"text\"`"
  },
  {
@@ -352,7 +352,7 @@
  {
   "id": "rdf-1",
   "topic": "rdf",
-  "topicLabel": "RDF · RDFS · OWL",
+  "topicLabel": "RDF · RDFS",
   "level": "warm-up",
   "type": "predict",
   "title": "Anatomie d'un triplet",
@@ -362,17 +362,17 @@
  {
   "id": "rdf-2",
   "topic": "rdf",
-  "topicLabel": "RDF · RDFS · OWL",
+  "topicLabel": "RDF · RDFS",
   "level": "medium",
   "type": "predict",
   "title": "domain/range : inférence, pas validation",
   "prompt": "Ontologie :\n```turtle\n:enseigne rdfs:domain :Professeur ;\n          rdfs:range  :Module .\n```\nFaits :\n```turtle\n:ali :enseigne :xml .\n:ali rdf:type :Etudiant .\n```\n**1.** Le raisonneur signale-t-il une erreur (un étudiant qui enseigne) ?\n**2.** Quels triplets sont **inférés** ?",
-  "correction": "**Résultat :**\n1. **Aucune erreur.**\n2. Inférés : `:ali rdf:type :Professeur` et `:xml rdf:type :Module`.\n\n**Le piège :** en RDFS, `domain` et `range` ne sont **pas des contraintes** à la façon d'un schéma XML — ce sont des **règles d'inférence**. Voir `:ali :enseigne :xml` ne fait pas rejeter le triplet : le raisonneur en **déduit** que `:ali` est un Professeur. Résultat : `:ali` est à la fois `:Etudiant` et `:Professeur` — parfaitement admis tant que rien ne déclare les classes disjointes (`owl:disjointWith`).\n\n**Règle à retenir :** monde des schémas XML = **validation** (rejeter l'invalide) ; monde RDF/OWL = **inférence** sous hypothèse du monde ouvert (déduire du nouveau). C'est LA question de compréhension type sur RDFS."
+  "correction": "**Résultat :**\n1. **Aucune erreur.**\n2. Inférés : `:ali rdf:type :Professeur` et `:xml rdf:type :Module`.\n\n**Le piège :** en RDFS, `domain` et `range` ne sont **pas des contraintes** à la façon d'un schéma XML — ce sont des **règles d'inférence**. Voir `:ali :enseigne :xml` ne fait pas rejeter le triplet : le raisonneur en **déduit** que `:ali` est un Professeur. Résultat : `:ali` est à la fois `:Etudiant` et `:Professeur` — parfaitement admis en RDFS, où rien ne peut déclarer deux classes incompatibles.\n\n**Règle à retenir :** monde des schémas XML = **validation** (rejeter l'invalide) ; monde RDF/RDFS = **inférence** sous hypothèse du monde ouvert (déduire du nouveau). C'est LA question de compréhension type sur RDFS."
  },
  {
   "id": "rdf-3",
   "topic": "rdf",
-  "topicLabel": "RDF · RDFS · OWL",
+  "topicLabel": "RDF · RDFS",
   "level": "medium",
   "type": "predict",
   "title": "rdf:type vs rdfs:subClassOf",
@@ -382,17 +382,17 @@
  {
   "id": "rdf-4",
   "topic": "rdf",
-  "topicLabel": "RDF · RDFS · OWL",
+  "topicLabel": "RDF · RDFS",
   "level": "hard",
   "type": "predict",
-  "title": "Transitive + inverseOf : dérouler l'inférence",
-  "prompt": "```turtle\n:ancetre a owl:TransitiveProperty .\n:descendant owl:inverseOf :ancetre .\n\n:ahmed :ancetre :karim .\n:karim :ancetre :yassine .\n```\nListe **tous** les triplets inférés (avec `:ancetre` et `:descendant`).",
-  "correction": "**Résultat — 5 triplets inférés :**\n```turtle\n:ahmed   :ancetre    :yassine .   # transitivité\n:karim   :descendant :ahmed .    # inverse du fait 1\n:yassine :descendant :karim .    # inverse du fait 2\n:yassine :descendant :ahmed .    # inverse du triplet transitif\n```\n(et par symétrie de `inverseOf`, tout `:descendant` réinférerait les `:ancetre` correspondants — déjà présents.)\n\n**Le piège :** l'oubli classique est le **4ᵉ** : il faut appliquer l'inverse **aussi aux triplets produits par la transitivité**, pas seulement aux faits de départ. Le raisonneur applique les règles **jusqu'à saturation** — toi aussi sur ta copie : repasse chaque règle tant que de nouveaux triplets apparaissent.\n\n**Règle à retenir :** méthode en deux passes minimum — 1) transitivité sur les faits, 2) inverses sur **tout** (faits + inférés), 3) revérifier qu'aucune règle ne produit plus rien. Barème de l'examen 2020 : un point par triplet, le croisé est celui qui manque."
+  "title": "subPropertyOf + domain : dérouler jusqu'à saturation",
+  "prompt": "```turtle\n:aPourMere    rdfs:subPropertyOf :aPourParent .\n:aPourParent  rdfs:domain :Personne .\n:aPourParent  rdfs:range  :Personne .\n:Etudiante    rdfs:subClassOf :Personne .\n\n:sara :aPourMere :amina .\n:sara rdf:type :Etudiante .\n```\nListe **tous** les triplets inférés par RDFS.",
+  "correction": "**Résultat — 3 triplets inférés :**\n```turtle\n:sara  :aPourParent :amina .    # subPropertyOf\n:sara  rdf:type :Personne .     # domain de aPourParent (et aussi via subClassOf)\n:amina rdf:type :Personne .     # range de aPourParent\n```\n\n**Le piège :** `domain` et `range` sont déclarés sur `:aPourParent`, pas sur `:aPourMere`. Le fait brut `:sara :aPourMere :amina` ne déclenche rien **directement** : il faut d'abord inférer `:sara :aPourParent :amina` (règle `subPropertyOf`), et c'est **ce triplet inféré** qui active domain et range. Qui s'arrête après la première passe oublie `:amina rdf:type :Personne`.\n\nNoter aussi que `:sara rdf:type :Personne` a **deux justifications** (domain, et `subClassOf` depuis `:Etudiante`) — en RDF un triplet n'existe qu'une fois, on ne le compte pas deux fois.\n\n**Règle à retenir :** applique les règles **jusqu'à saturation** — les triplets inférés déclenchent à leur tour des règles. Ordre efficace sur ta copie : 1) `subPropertyOf`, 2) `domain`/`range` sur faits + inférés, 3) `subClassOf`, puis revérifier."
  },
  {
   "id": "rdf-5",
   "topic": "rdf",
-  "topicLabel": "RDF · RDFS · OWL",
+  "topicLabel": "RDF · RDFS",
   "level": "hard",
   "type": "predict",
   "title": "Chasser les erreurs d'un RDF/XML",
@@ -402,11 +402,11 @@
  {
   "id": "rdf-6",
   "topic": "rdf",
-  "topicLabel": "RDF · RDFS · OWL",
+  "topicLabel": "RDF · RDFS",
   "level": "hard",
   "type": "predict",
-  "title": "FunctionalProperty : déduction, pas contradiction",
-  "prompt": "```turtle\n:aPourPere a owl:FunctionalProperty .\n\n:sara :aPourPere :ahmed .\n:sara :aPourPere :monsieurAlami .\n```\n**1.** Le raisonneur détecte-t-il une incohérence ?\n**2.** Qu'infère-t-il ?\n**3.** Et si on ajoute `:ahmed owl:differentFrom :monsieurAlami` ?",
-  "correction": "**Résultat :**\n1. **Non** — aucune incohérence pour l'instant.\n2. Il infère **`:ahmed owl:sameAs :monsieurAlami`** : une propriété fonctionnelle a au plus une valeur, donc si on en voit deux… c'est que ce sont **deux noms de la même ressource**.\n3. Là seulement, **incohérence** : `sameAs` (inféré) contredit `differentFrom` (déclaré).\n\n**Le piège :** l'hypothèse du **monde ouvert sans noms uniques** (no Unique Name Assumption) : deux URI différentes ne désignent pas forcément deux individus différents. Le réflexe « deux pères = erreur » vient des bases de données ; OWL préfère **réconcilier** par `sameAs`. C'est la question de raisonnement OWL2 la plus contre-intuitive — donc la plus posée.\n\n**Règle à retenir :** `FunctionalProperty` + deux objets ⇒ `owl:sameAs` inféré ; l'erreur n'apparaît que si les individus sont déclarés distincts (`owl:differentFrom` / `owl:AllDifferent`). Symétrique : `InverseFunctionalProperty` identifie par la valeur (même email ⇒ même personne)."
+  "title": "Deux domain sur la même propriété",
+  "prompt": "```turtle\n:dirige rdfs:domain :Enseignant .\n:dirige rdfs:domain :Chercheur .\n\n:amina :dirige :theseX .\n```\n**1.** Les deux déclarations `domain` sont-elles contradictoires ?\n**2.** Qu'infère-t-on sur `:amina` : Enseignant, Chercheur, l'un des deux… ou autre chose ?",
+  "correction": "**Résultat :**\n1. **Non**, aucune contradiction — les deux déclarations coexistent.\n2. On infère **les deux** : `:amina rdf:type :Enseignant` **et** `:amina rdf:type :Chercheur`.\n\n**Le piège :** l'intuition dit « deux domains = un choix (ou) » ou « conflit ». C'est l'inverse : chaque déclaration `domain` est une règle d'inférence indépendante, donc elles s'appliquent **toutes** — plusieurs `domain` se cumulent en **intersection** (ET), pas en alternative (OU). Même logique pour plusieurs `range`.\n\nConséquence pratique de modélisation : déclarer `rdfs:domain :Enseignant` **et** `rdfs:domain :Chercheur` est presque toujours une erreur de conception — tout sujet de `:dirige` devient les deux à la fois. Pour dire « enseignant **ou** chercheur », RDFS n'a pas d'outil : il faudrait une super-classe commune (`:Encadrant`) et un seul `domain`.\n\n**Règle à retenir :** plusieurs `domain`/`range` = conjonction. Si l'énoncé demande « que peut-on déduire ? », liste **tous** les types — et si la question est « bonne ou mauvaise modélisation ? », réponds : légal, mais un seul `domain` via une super-classe est le bon design."
  }
 ]
