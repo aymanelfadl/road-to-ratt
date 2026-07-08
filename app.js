@@ -36,6 +36,7 @@
       if (!labels[q.topic]) { seen.push(q.topic); labels[q.topic] = q.topicLabel; }
     });
     state.topics = seen;
+    state.topicLabels = labels;
     const list = el("topicList");
     list.innerHTML = "";
     seen.forEach((t) => {
@@ -88,6 +89,41 @@
     const mastered = Object.values(state.progress).filter((v) => v === "mastered").length;
     el("progressText").textContent = mastered + " / " + total + " maîtrisées";
     el("progressFill").style.width = total ? (100 * mastered / total) + "%" : "0%";
+    renderBilan();
+  }
+
+  function renderBilan() {
+    const list = el("bilanList");
+    list.innerHTML = "";
+    state.topics.forEach((t) => {
+      const qs = state.all.filter((q) => q.topic === t);
+      const done = qs.filter((q) => state.progress[q.id] === "mastered").length;
+      const pct = qs.length ? done / qs.length : 0;
+      const v = pct >= 0.8 ? ["prêt", "ok"] : pct >= 0.5 ? ["presque", "mid"] : ["à travailler", "low"];
+
+      const row = document.createElement("div");
+      row.className = "bilan-row";
+      const head = document.createElement("div");
+      head.className = "bilan-head";
+      const name = document.createElement("span");
+      name.textContent = state.topicLabels[t];
+      const verdict = document.createElement("span");
+      verdict.className = "bilan-verdict";
+      verdict.dataset.v = v[1];
+      verdict.textContent = done + "/" + qs.length + " · " + v[0];
+      head.appendChild(name);
+      head.appendChild(verdict);
+      const bar = document.createElement("div");
+      bar.className = "bilan-bar";
+      const fill = document.createElement("div");
+      fill.className = "bilan-fill";
+      fill.dataset.v = v[1];
+      fill.style.width = (100 * pct) + "%";
+      bar.appendChild(fill);
+      row.appendChild(head);
+      row.appendChild(bar);
+      list.appendChild(row);
+    });
   }
 
   function render() {
@@ -106,9 +142,9 @@
     const q = state.queue[state.pos];
     el("qTopic").textContent = q.topicLabel;
     const levelEl = el("qLevel");
-    levelEl.textContent = { "warm-up": "Warm-up", "medium": "Medium", "hard": "Hard" }[q.level] || q.level;
+    levelEl.textContent = { "warm-up": "Warm-up", "medium": "Medium", "hard": "Hard", "exam": "Épreuve" }[q.level] || q.level;
     levelEl.dataset.level = q.level;
-    el("qType").textContent = q.type === "write" ? "à écrire" : "à prédire";
+    el("qType").textContent = { write: "à écrire", predict: "à prédire", mixed: "mixte" }[q.type] || q.type;
     el("qIndex").textContent = (state.pos + 1) + " / " + state.queue.length;
     el("qTitle").textContent = q.title;
     el("qPrompt").innerHTML = window.marked.parse(q.prompt || "");

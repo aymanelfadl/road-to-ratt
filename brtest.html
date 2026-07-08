@@ -1,0 +1,9 @@
+<!doctype html><html><body><div id="out"></div>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+marked.setOptions({ breaks: true });
+fetch('data/exercises.json').then(r => r.json()).then(d => {
+  const q = d.find(e => e.id === 'xpath-1');
+  document.getElementById('out').innerHTML = marked.parse(q.prompt);
+});
+</script></body></html>
